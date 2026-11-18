@@ -1,6 +1,10 @@
 # Physics Project - B
 
-A presentation on the interdisciplinary nature of physics.
+A presentation on the interdisciplinary nature of physics, built as
+**16 teaching boards** — for each of the six fields there is a *concept board*
+(what it is, how physics gets in, an animated diagram and a photograph) and a
+*worked example board* (one problem, solved step by step, with the answer
+counted up on screen).
 
 - **Hosting:** Cloudflare Workers (static assets), auto-deploys from `main`
 - **Entry point:** `public/index.html` (static, no build step)
@@ -19,7 +23,8 @@ A presentation on the interdisciplinary nature of physics.
 
 | Path | Purpose |
 | --- | --- |
-| `public/index.html` | The whole site: markup, styles, navigation |
+| `public/index.html` | The whole site: markup, styles, navigation, SVG diagrams |
+| `public/img/` | The 13 photographs used on the boards (see the credits board) |
 | `public/ThankYou.mp3` | Sound played when `T` is pressed |
 | `public/test.html` | Deployment check page |
 | `public/sw.js` | Service worker: offline-first caching |
@@ -33,15 +38,19 @@ A presentation on the interdisciplinary nature of physics.
 Every visit stores the whole site on the device:
 
 - **On install** the service worker precaches `/`, `/index.html`, `/test.html`,
-  `/ThankYou.mp3`, plus everything listed in `public/offline-files.json`.
+  `/ThankYou.mp3`, plus everything listed in `public/offline-files.json`
+  (currently all 13 photographs as well).
 - **Any same-origin file** requested later (a new page, image, PDF) is fetched
   once and then served from the device cache — so future files are cached too.
 - **HTML** is served instantly from cache and refreshed quietly in the background.
 - **Offline** the presentation still opens and the `T` sound still plays.
 
 To force every device to re-download the site after a change, bump the line
-`const VERSION = 'v1';` at the top of `public/sw.js` and push. Bumping it
-deletes the old cache and builds a fresh one.
+`const VERSION = 'v2';` at the top of `public/sw.js` and push. Bumping it
+deletes the old cache and builds a fresh one. **Bump it whenever you change
+`index.html`, the CSS or the images** — the service worker serves HTML
+cache-first, so without a bump returning visitors see the old deck on their
+first load.
 
 To add a file to the offline set without visiting it, add its path to
 `public/offline-files.json`.

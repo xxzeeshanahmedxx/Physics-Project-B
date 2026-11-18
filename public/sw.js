@@ -1,7 +1,7 @@
 /* Physics Project – B — offline-first service worker
  * Bump VERSION whenever you ship changes so clients pick up a fresh cache.
  */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const PRECACHE = 'ppb-precache-' + VERSION;
 const RUNTIME = 'ppb-runtime-' + VERSION;
 

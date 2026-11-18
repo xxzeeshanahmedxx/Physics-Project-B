@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Interdisciplinary Nature of Physics — Physics Project – B</title>
-<meta name="description" content="A presentation on the interdisciplinary nature of physics: biophysics, medical physics, astrophysics, geophysics, climate physics, and computational physics." />
+<meta name="description" content="A teaching-board presentation on the interdisciplinary nature of physics: biophysics, medical physics, astrophysics, geophysics, climate physics and computational physics — each with a worked example, animations and photographs." />
 <style>
   :root {
     --bg: #0b1020;
@@ -14,6 +14,7 @@
     --muted: #9aa8c4;
     --accent: #5b8cff;
     --accent-2: #33d6a6;
+    --warm: #ffb454;
     --shadow: 0 24px 60px rgba(0, 0, 0, .45);
   }
   * { box-sizing: border-box; }
@@ -45,7 +46,7 @@
 
   .topbar {
     display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; padding: 22px 28px 0; z-index: 20;
+    gap: 16px; padding: 20px 28px 0; z-index: 20;
   }
   .brand {
     font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
@@ -65,52 +66,60 @@
   .slide {
     position: absolute; inset: 0;
     display: flex; align-items: center;
-    padding: 24px 28px 96px;
+    padding: 20px 28px 92px;
     opacity: 0; visibility: hidden;
     transform: translateY(14px) scale(.995);
     transition: opacity .4s ease, transform .45s cubic-bezier(.4,0,.2,1), visibility .45s;
     overflow-y: auto;
+    overscroll-behavior: contain;
   }
   .slide.is-active {
     opacity: 1; visibility: visible;
     transform: none;
   }
-  .slide__inner { width: 100%; max-width: 940px; margin: 0 auto; }
+  .slide__inner { width: 100%; max-width: 940px; margin-block: auto; }
+  .slide__inner--wide { max-width: 1200px; }
 
   .eyebrow {
     display: inline-flex; align-items: center; gap: 8px;
-    font-size: .72rem; letter-spacing: .15em; text-transform: uppercase;
+    font-size: .7rem; letter-spacing: .15em; text-transform: uppercase;
     color: var(--accent-2);
     border: 1px solid var(--border); border-radius: 999px;
-    padding: 5px 14px; margin-bottom: 22px;
+    padding: 5px 14px; margin-bottom: 18px;
     background: rgba(19,26,48,.6);
   }
 
   h1 {
-    font-size: clamp(2rem, 5.6vw, 3.6rem);
+    font-size: clamp(2rem, 5.4vw, 3.5rem);
     line-height: 1.1; margin: 0 0 18px; letter-spacing: -.02em;
   }
   h1 em { font-style: normal; color: var(--accent); }
   h2 {
-    font-size: clamp(1.7rem, 4.2vw, 2.6rem);
-    line-height: 1.15; margin: 0 0 18px; letter-spacing: -.015em;
+    font-size: clamp(1.6rem, 3.8vw, 2.5rem);
+    line-height: 1.15; margin: 0 0 14px; letter-spacing: -.015em;
   }
-  p { color: var(--muted); font-size: clamp(.98rem, 1.6vw, 1.12rem); line-height: 1.7; margin: 0 0 16px; max-width: 66ch; }
+  p { color: var(--muted); font-size: clamp(.95rem, 1.4vw, 1.06rem); line-height: 1.68; margin: 0 0 14px; max-width: 68ch; }
   p strong { color: var(--text); font-weight: 600; }
   p:last-child { margin-bottom: 0; }
+
+  .lede {
+    font-size: clamp(1.02rem, 1.7vw, 1.2rem); line-height: 1.6; color: #cfdaef;
+    max-width: 62ch;
+  }
+  .lede strong { color: #fff; }
 
   /* ---------- title slide ---------- */
   .title-slide .kicker {
     font-size: .74rem; letter-spacing: .2em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 20px;
+    color: var(--muted); margin-bottom: 18px;
   }
   .title-slide .rule {
-    width: 64px; height: 3px; border-radius: 2px; margin: 26px 0;
+    width: 64px; height: 3px; border-radius: 2px; margin: 24px 0;
     background: linear-gradient(90deg, var(--accent), var(--accent-2));
   }
   .hint {
-    display: inline-flex; align-items: center; gap: 10px;
-    margin-top: 30px; font-size: .85rem; color: var(--muted);
+    display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    margin-top: 26px; font-size: .85rem; color: var(--muted);
     transition: color .3s, transform .3s;
   }
   .hint.is-playing { color: var(--accent-2); transform: scale(1.04); }
@@ -120,19 +129,24 @@
     padding: 2px 7px; background: var(--panel); color: var(--text);
   }
 
-  /* ---------- field slides ---------- */
-  .field-head { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 6px; }
+  .title-grid {
+    display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr);
+    gap: 34px; align-items: center;
+  }
+
+  /* ---------- field boards ---------- */
+  .field-head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 4px; }
   .num {
     flex: 0 0 auto;
-    font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 700; line-height: 1;
+    font-size: clamp(1.5rem, 3vw, 2.1rem); font-weight: 700; line-height: 1;
     font-variant-numeric: tabular-nums;
     color: transparent;
     -webkit-text-stroke: 1.5px rgba(91,140,255,.65);
     padding-top: .18em;
   }
-  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
+  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
   .tag {
-    font-size: .8rem; color: #cfe0ff;
+    font-size: .78rem; color: #cfe0ff;
     background: rgba(91,140,255,.1);
     border: 1px solid rgba(91,140,255,.3);
     border-radius: 999px; padding: 5px 13px;
@@ -141,23 +155,142 @@
   .quote {
     border-left: 3px solid var(--accent);
     padding: 4px 0 4px 18px;
-    color: var(--text); font-size: clamp(1rem, 1.8vw, 1.18rem); line-height: 1.65;
-    margin: 0 0 22px; max-width: 62ch;
+    color: var(--text); font-size: clamp(1rem, 1.7vw, 1.16rem); line-height: 1.6;
+    margin: 0 0 20px; max-width: 62ch;
   }
+
+  .board__grid {
+    display: grid; gap: 30px;
+    grid-template-columns: minmax(0,1.08fr) minmax(0,.92fr);
+    align-items: start;
+  }
+  .board__side { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+  .points { display: grid; gap: 14px; margin-top: 6px; }
+  .point {
+    border: 1px solid var(--border); border-left: 3px solid var(--accent);
+    border-radius: 10px; background: rgba(19,26,48,.62);
+    padding: 12px 16px;
+  }
+  .point__k {
+    display: block; font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 6px; font-weight: 600;
+  }
+  .point p { font-size: .95rem; line-height: 1.6; margin: 0; max-width: none; }
+
+  /* ---------- worked examples ---------- */
+  .steps { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 12px; counter-reset: step; }
+  .steps li {
+    position: relative; counter-increment: step;
+    border: 1px solid var(--border); border-radius: 10px;
+    background: rgba(19,26,48,.55);
+    padding: 12px 16px 13px 52px;
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute; left: 14px; top: 13px;
+    width: 24px; height: 24px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-size: .76rem; font-weight: 700; font-variant-numeric: tabular-nums;
+    color: #08101f; background: var(--accent);
+  }
+  .step__k {
+    display: block; font-size: .7rem; letter-spacing: .13em; text-transform: uppercase;
+    color: var(--accent-2); font-weight: 600; margin-bottom: 4px;
+  }
+  .steps p { font-size: .93rem; line-height: 1.6; margin: 0; max-width: none; }
+  .m {
+    display: block; margin-top: 9px; padding: 7px 11px;
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .9rem;
+    color: #d6e4ff; background: rgba(91,140,255,.1);
+    border: 1px solid rgba(91,140,255,.25); border-radius: 8px;
+    overflow-x: auto; white-space: nowrap;
+  }
+  .m b { color: var(--warm); font-weight: 600; }
+
+  .answer {
+    margin-top: 16px; border-radius: 12px; padding: 14px 18px;
+    border: 1px solid rgba(51,214,166,.42);
+    background: linear-gradient(180deg, rgba(51,214,166,.12), rgba(51,214,166,.03));
+  }
+  .answer__k {
+    display: block; font-size: .68rem; letter-spacing: .15em; text-transform: uppercase;
+    color: var(--accent-2); font-weight: 700; margin-bottom: 6px;
+  }
+  .answer p { color: var(--text); font-size: .95rem; margin: 0; max-width: none; }
+  .big {
+    display: block; font-size: clamp(1.5rem, 3vw, 2.3rem); font-weight: 700;
+    color: var(--accent-2); font-variant-numeric: tabular-nums;
+    line-height: 1.15; margin-bottom: 4px; letter-spacing: -.01em;
+  }
+
+  /* ---------- photographs ---------- */
+  .shot { margin: 0; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0d1428; }
+  .shot img {
+    display: block; width: auto; max-width: 100%; max-height: 34vh;
+    height: auto; margin: 0 auto; object-fit: contain;
+  }
+  .shot figcaption {
+    padding: 9px 13px 11px; font-size: .78rem; line-height: 1.5; color: var(--muted);
+    border-top: 1px solid var(--border); background: rgba(19,26,48,.75);
+  }
+  .shot figcaption b { color: #cfe0ff; font-weight: 600; }
+  .shot figcaption a { color: var(--accent); text-decoration: none; }
+  .shot figcaption a:hover { text-decoration: underline; }
+
+  /* ---------- animated diagrams ---------- */
+  .viz {
+    border: 1px solid var(--border); border-radius: 12px;
+    background:
+      linear-gradient(180deg, rgba(91,140,255,.06), rgba(19,26,48,.5)),
+      rgba(13,20,40,.85);
+    padding: 8px 10px 6px;
+  }
+  .viz svg { display: block; width: 100%; height: auto; }
+  .viz__cap {
+    display: block; text-align: center; font-size: .72rem; letter-spacing: .06em;
+    color: var(--muted); padding: 2px 4px 4px;
+  }
+  .viz svg text { font-family: ui-sans-serif, system-ui, sans-serif; }
 
   /* ---------- overview grid ---------- */
   .grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 12px; margin-top: 26px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    gap: 12px; margin-top: 22px;
   }
   .card {
     border: 1px solid var(--border); border-radius: 12px;
     background: rgba(19,26,48,.72);
-    padding: 16px 18px;
+    padding: 14px 16px;
     display: flex; gap: 12px; align-items: baseline;
   }
   .card b { color: var(--accent-2); font-size: .8rem; font-variant-numeric: tabular-nums; }
-  .card span { color: var(--text); font-size: .95rem; }
+  .card span { color: var(--text); font-size: .92rem; line-height: 1.5; }
+  .card i { display: block; font-style: normal; color: var(--muted); font-size: .8rem; margin-top: 3px; }
+
+  .legend {
+    display: flex; gap: 18px; flex-wrap: wrap; margin-top: 18px;
+    font-size: .82rem; color: var(--muted);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+  .legend i {
+    width: 10px; height: 10px; border-radius: 3px; display: inline-block;
+    background: var(--accent);
+  }
+  .legend span:last-child i { background: var(--accent-2); }
+
+  /* ---------- credits ---------- */
+  .credits { width: 100%; border-collapse: collapse; font-size: .8rem; margin-top: 12px; }
+  .credits th, .credits td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  .credits th {
+    color: var(--muted); font-weight: 600; text-transform: uppercase;
+    letter-spacing: .08em; font-size: .66rem; white-space: nowrap;
+  }
+  .credits td { color: var(--muted); line-height: 1.45; }
+  .credits td:first-child { color: var(--text); }
+  .credits a { color: var(--accent); text-decoration: none; }
+  .credits a:hover { text-decoration: underline; }
+  .credits .lic { white-space: nowrap; color: #cfe0ff; }
 
   /* ---------- controls ---------- */
   .controls {
@@ -190,21 +323,83 @@
 
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
+  /* ---------- entrance animation ---------- */
+  .js .anim { opacity: 0; }
+  .slide.is-active .anim {
+    animation: rise .58s cubic-bezier(.2,.75,.3,1) both;
+    animation-delay: var(--d, 0s);
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: none; }
+  }
+  .slide.is-active .shot { animation: shotIn .7s cubic-bezier(.2,.75,.3,1) both; animation-delay: var(--d, 0s); }
+  @keyframes shotIn {
+    from { opacity: 0; transform: scale(1.03); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* diagram motion (paused unless its slide is on screen) */
+  .viz svg * { transform-box: view-box; animation-play-state: paused; }
+  .slide.is-active .viz svg * { animation-play-state: running; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes dashmove { to { stroke-dashoffset: -72; } }
+  @keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes pop { from { opacity: 0; transform: scale(.35); } to { opacity: 1; transform: scale(1); } }
+  @keyframes ring { 0% { opacity: .85; transform: scale(.1); } 100% { opacity: 0; transform: scale(1.75); } }
+  @keyframes flowx { from { transform: translateX(-80px); } to { transform: translateX(460px); } }
+  @keyframes driftup { 0% { opacity: 0; transform: translate(0,0) scale(.6); } 25% { opacity: 1; } 100% { opacity: 0; transform: translate(18px,-70px) scale(1); } }
+  @keyframes spread {
+    0% { opacity: 0; transform: translate(0,0) scale(.5); }
+    20% { opacity: 1; }
+    100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1); }
+  }
+  @keyframes glow { 50% { opacity: .45; transform: scale(1.12); } }
+  @keyframes blink { 50% { opacity: .3; } }
+  @keyframes fillup { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes wob { 50% { transform: translateY(-5px); } }
+
+  .viz .spin { transform-origin: var(--ox, 200px) var(--oy, 110px); animation: spin var(--dur, 7s) linear infinite; }
+  .viz .dash { animation: dashmove 1.6s linear infinite; }
+  .viz .draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw 1.4s ease-out forwards; }
+  .viz .pop { animation: pop .5s cubic-bezier(.2,.8,.3,1) both; animation-delay: var(--pd, 0s); }
+  .viz .ring { animation: ring 2.6s cubic-bezier(.2,.6,.4,1) infinite; animation-delay: var(--pd, 0s); }
+  .viz .flow { animation: flowx var(--dur, 4.5s) linear infinite; animation-delay: var(--pd, 0s); }
+  .viz .drift { animation: driftup 3s ease-out infinite; animation-delay: var(--pd, 0s); }
+  .viz .glow { animation: glow 3s ease-in-out infinite; }
+  .viz .blink { animation: blink 2s ease-in-out infinite; animation-delay: var(--pd, 0s); }
+  .viz .fill { transform-origin: var(--ox, 200px) var(--oy, 200px); animation: fillup 1.2s cubic-bezier(.2,.8,.3,1) both; animation-delay: var(--pd, 0s); }
+  .viz .wob { animation: wob 2.4s ease-in-out infinite; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 980px) {
+    .board__grid, .title-grid { grid-template-columns: minmax(0,1fr); gap: 20px; }
+    .board__side { flex-direction: row; flex-wrap: wrap; }
+    .board__side > * { flex: 1 1 260px; }
+    .shot img { max-height: 26vh; }
+  }
+  @media (max-width: 640px) {
+    .topbar { padding: 14px 18px 0; }
+    .slide { padding: 14px 18px 96px; }
+    .controls { padding: 12px 18px 16px; }
+    .brand { display: none; }
+    .field-head { gap: 12px; }
+    .steps li { padding-left: 46px; }
+    .shot img { max-height: 30vh; }
+    .board__side { flex-direction: column; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .slide, .progress__bar { transition: none; }
+    .js .anim, .slide.is-active .anim, .slide.is-active .shot { opacity: 1; animation: none; transform: none; }
+    .viz svg * { animation: none !important; }
+    .viz .draw { stroke-dasharray: none; stroke-dashoffset: 0; }
+  }
+
   /* no-JS fallback: show everything, scroll normally */
   html:not(.js) body { overflow: auto; }
   html:not(.js) .slide { position: static; opacity: 1; visibility: visible; transform: none; }
   html:not(.js) .controls, html:not(.js) .progress { display: none; }
-
-  @media (max-width: 640px) {
-    .topbar { padding: 16px 18px 0; }
-    .slide { padding: 16px 18px 100px; }
-    .controls { padding: 12px 18px 16px; }
-    .brand { display: none; }
-    .field-head { gap: 12px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .slide, .progress__bar { transition: none; }
-  }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -214,194 +409,1114 @@
 
   <div class="topbar">
     <div class="brand">Physics Project <b>– B</b></div>
-    <div class="counter" id="counter">1 / 9</div>
+    <div class="counter" id="counter" aria-live="polite">1 / 16</div>
   </div>
 
   <div class="slides" id="slides">
-
+    <!-- ══════════ 1 · TITLE ══════════ -->
     <section class="slide title-slide" aria-label="Title">
-      <div class="slide__inner">
-        <div class="kicker">Physics Project – B</div>
-        <h1>The <em>Interdisciplinary</em> Nature of Physics</h1>
-        <p>How a fundamental science reaches into biology, medicine, space, the Earth, the climate, and computation.</p>
-        <div class="rule"></div>
-        <div class="hint" id="thint">
-          Use <kbd>←</kbd> <kbd>→</kbd> or swipe to move · press <kbd>T</kbd>
+      <div class="slide__inner slide__inner--wide">
+        <div class="title-grid">
+          <div>
+            <div class="kicker anim" style="--d:.02s">Physics Project – B · 16 teaching boards</div>
+            <h1 class="anim" style="--d:.08s">The <em>Interdisciplinary</em> Nature of Physics</h1>
+            <p class="lede anim" style="--d:.16s">
+              How one fundamental science reaches into <strong>living bodies</strong>,
+              <strong>hospitals</strong>, <strong>the cosmos</strong>, <strong>the Earth</strong>,
+              <strong>the climate</strong> and <strong>the computer</strong>.
+            </p>
+            <div class="rule anim" style="--d:.22s"></div>
+            <div class="legend anim" style="--d:.27s">
+              <span><i></i> Concept board — what the field is</span>
+              <span><i></i> Worked example — one problem, solved</span>
+            </div>
+            <div class="hint anim" style="--d:.33s" id="thint">
+              Use <kbd>←</kbd> <kbd>→</kbd> or swipe to move · press <kbd>T</kbd>
+            </div>
+          </div>
+          <figure class="shot anim" style="--d:.18s">
+            <img src="./img/title.jpg" width="1280" height="852" fetchpriority="high" decoding="async"
+                 alt="A person standing inside the Large Hadron Collider tunnel at CERN, surrounded by blue superconducting magnets." />
+            <figcaption>
+              <b>The Large Hadron Collider tunnel at CERN</b> — 27 km of superconducting magnets,
+              every one of them designed with the physics on the next 15 boards.
+              Photo: Maximilien Brice (CERN), <a href="https://commons.wikimedia.org/wiki/File:Views_of_the_LHC_tunnel_sector_3-4,_tirage_2.jpg" target="_blank" rel="noopener">CC BY-SA 3.0</a>.
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
 
-    <section class="slide" aria-label="What it means">
-      <div class="slide__inner">
-        <div class="eyebrow">Introduction</div>
-        <h2>What does “interdisciplinary” mean here?</h2>
-        <p class="quote">
-          It refers to the integration and interaction of physics with various other fields of study.
-        </p>
-        <p>
-          Physics, being a <strong>fundamental science</strong>, provides essential principles,
-          techniques, and methods that are applicable across a wide range of disciplines.
-        </p>
-        <div class="grid">
-          <div class="card"><b>01</b><span>Biophysics</span></div>
-          <div class="card"><b>02</b><span>Medical Physics</span></div>
-          <div class="card"><b>03</b><span>Astrophysics</span></div>
-          <div class="card"><b>04</b><span>Geophysics</span></div>
-          <div class="card"><b>05</b><span>Climate Physics</span></div>
-          <div class="card"><b>06</b><span>Computational Physics</span></div>
+    <!-- ══════════ 2 · WHAT IT MEANS ══════════ -->
+    <section class="slide" aria-label="What interdisciplinary means">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Introduction</div>
+            <h2 class="anim" style="--d:.07s">What does “interdisciplinary” mean here?</h2>
+            <p class="quote anim" style="--d:.12s">
+              It refers to the integration and interaction of physics with various other fields of study.
+            </p>
+            <p class="anim" style="--d:.17s">
+              Physics is a <strong>fundamental science</strong>: it does not study one particular kind of
+              thing — biology studies life, geology studies rocks. Physics studies
+              <strong>how matter, energy, waves and fields behave</strong>, which is why its laws,
+              its methods and its instruments can be pointed at anything at all.
+            </p>
+            <div class="points">
+              <div class="point anim" style="--d:.22s">
+                <span class="point__k">A shared language</span>
+                <p>Mathematics, conservation laws and dimensional analysis. The same equation that
+                  describes a current in a wire describes blood in an artery.</p>
+              </div>
+              <div class="point anim" style="--d:.28s">
+                <span class="point__k">Shared tools &amp; instruments</span>
+                <p>Lasers, magnets, vacuum, detectors and sensors — invented in physics laboratories,
+                  now standard equipment in hospitals, observatories and weather stations.</p>
+              </div>
+            </div>
+            <div class="legend anim" style="--d:.34s">
+              <span><i></i> Concept board — what the field is</span>
+              <span><i></i> Worked example — one problem, solved</span>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <div class="viz anim" style="--d:.2s">
+              <svg viewBox="0 0 400 240" role="img" aria-label="Diagram: physics at the centre with six branches — biology, medicine, astrophysics, geophysics, climate and computing.">
+                <title>Physics at the centre of six fields</title>
+                <g stroke="rgba(91,140,255,.55)" stroke-width="1.5" fill="none">
+                  <path class="draw" pathLength="1" style="animation-delay:.35s" d="M200 120 L350 120"/>
+                  <path class="draw" pathLength="1" style="animation-delay:.45s" d="M200 120 L275 200"/>
+                  <path class="draw" pathLength="1" style="animation-delay:.55s" d="M200 120 L125 200"/>
+                  <path class="draw" pathLength="1" style="animation-delay:.65s" d="M200 120 L50 120"/>
+                  <path class="draw" pathLength="1" style="animation-delay:.75s" d="M200 120 L125 40"/>
+                  <path class="draw" pathLength="1" style="animation-delay:.85s" d="M200 120 L275 40"/>
+                </g>
+                <g class="pop" style="--pd:.9s">
+                  <circle cx="200" cy="120" r="44" fill="rgba(91,140,255,.2)" stroke="#5b8cff" stroke-width="2"/>
+                  <text x="200" y="117" text-anchor="middle" font-size="13" font-weight="700" fill="#e8edf7">PHYSICS</text>
+                  <text x="200" y="133" text-anchor="middle" font-size="8.5" fill="#9aa8c4">principles</text>
+                </g>
+                <g font-size="9.5" font-weight="600" fill="#cfe0ff" text-anchor="middle">
+                  <g class="pop" style="--pd:.3s"><rect x="312" y="108" width="76" height="24" rx="7" fill="rgba(51,214,166,.14)" stroke="rgba(51,214,166,.55)"/><text x="350" y="124">BIOLOGY</text></g>
+                  <g class="pop" style="--pd:.4s"><rect x="237" y="188" width="76" height="24" rx="7" fill="rgba(51,214,166,.14)" stroke="rgba(51,214,166,.55)"/><text x="275" y="204">MEDICINE</text></g>
+                  <g class="pop" style="--pd:.5s"><rect x="87" y="188" width="76" height="24" rx="7" fill="rgba(51,214,166,.14)" stroke="rgba(51,214,166,.55)"/><text x="125" y="204">CLIMATE</text></g>
+                  <g class="pop" style="--pd:.6s"><rect x="12" y="108" width="76" height="24" rx="7" fill="rgba(51,214,166,.14)" stroke="rgba(51,214,166,.55)"/><text x="50" y="124">COMPUTING</text></g>
+                  <g class="pop" style="--pd:.7s"><rect x="87" y="28" width="76" height="24" rx="7" fill="rgba(51,214,166,.14)" stroke="rgba(51,214,166,.55)"/><text x="125" y="44">GEOPHYSICS</text></g>
+                  <g class="pop" style="--pd:.8s"><rect x="237" y="28" width="76" height="24" rx="7" fill="rgba(51,214,166,.14)" stroke="rgba(51,214,166,.55)"/><text x="275" y="44">SPACE</text></g>
+                </g>
+              </svg>
+              <span class="viz__cap">One centre of gravity, six directions of travel</span>
+            </div>
+            <div class="grid anim" style="--d:.3s">
+              <div class="card"><b>01</b><span>Biophysics<i>living systems</i></span></div>
+              <div class="card"><b>02</b><span>Medical Physics<i>diagnosis &amp; treatment</i></span></div>
+              <div class="card"><b>03</b><span>Astrophysics<i>the cosmos</i></span></div>
+              <div class="card"><b>04</b><span>Geophysics<i>the Earth</i></span></div>
+              <div class="card"><b>05</b><span>Climate Physics<i>the environment</i></span></div>
+              <div class="card"><b>06</b><span>Computational Physics<i>simulation</i></span></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="slide" aria-label="Biophysics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 01</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">01</span>
-          <h2>Biophysics</h2>
-        </div>
-        <p>
-          This field describes biological systems and processes using the principles and techniques
-          of physics.
-        </p>
-        <p>
-          Examples include the mechanics of biological structures and the physical properties of
-          cells, tissues, and organs.
-        </p>
-        <div class="tags">
-          <span class="tag">Biomechanics</span>
-          <span class="tag">Cells &amp; tissues</span>
-          <span class="tag">Physical properties</span>
+    <!-- ══════════ 3 · BIOPHYSICS · CONCEPT ══════════ -->
+    <section class="slide board" aria-label="Biophysics — concept">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 01 · Concept board</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">01</span>
+              <h2>Biophysics</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              It describes biological systems and processes using the principles and techniques of physics —
+              the cell, the tissue and the organ treated as <strong>machines made of matter</strong>.
+            </p>
+            <div class="points">
+              <div class="point anim" style="--d:.18s">
+                <span class="point__k">What it studies</span>
+                <p>The mechanics of muscles and bones, how molecules move and exert force, how blood
+                  flows, how membranes stretch, how nerves carry electrical signals, how proteins fold.</p>
+              </div>
+              <div class="point anim" style="--d:.24s">
+                <span class="point__k">How physics gets in</span>
+                <p>Newton’s laws on a lever arm, fluid dynamics in a capillary, thermodynamics in a
+                  folding protein, electromagnetism in an ion channel, optics in the eye.</p>
+              </div>
+            </div>
+            <div class="tags anim" style="--d:.3s">
+              <span class="tag">Biomechanics</span>
+              <span class="tag">Diffusion</span>
+              <span class="tag">Molecular motors</span>
+              <span class="tag">Elasticity</span>
+              <span class="tag">Bioelectricity</span>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/bio-concept.jpg" width="960" height="899" loading="lazy" decoding="async"
+                   alt="Scanning electron micrograph of an ant's head, showing its antennae and compound eye in detail." />
+              <figcaption>
+                <b>An ant, under an electron microscope.</b> The instrument works because of quantum
+                mechanics; the subject is alive. That overlap is biophysics.
+                Photo: U.S. Geological Survey, public domain.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 170" role="img" aria-label="Animation: red blood cells flowing through a capillary while oxygen molecules drift out through the wall.">
+                <title>Blood flow and diffusion</title>
+                <rect x="0" y="0" width="400" height="170" fill="none"/>
+                <path d="M0 58 H400" stroke="rgba(232,237,247,.35)" stroke-width="2" fill="none"/>
+                <path d="M0 118 H400" stroke="rgba(232,237,247,.35)" stroke-width="2" fill="none"/>
+                <rect x="0" y="58" width="400" height="60" fill="rgba(91,140,255,.07)"/>
+                <g fill="#e05a6a" opacity=".9">
+                  <ellipse class="flow" style="--pd:0s;   --dur:5s" cx="0" cy="76"  rx="15" ry="9"/>
+                  <ellipse class="flow" style="--pd:1.1s; --dur:5s" cx="0" cy="100" rx="15" ry="9"/>
+                  <ellipse class="flow" style="--pd:2.2s; --dur:5s" cx="0" cy="87"  rx="15" ry="9"/>
+                  <ellipse class="flow" style="--pd:3.3s; --dur:5s" cx="0" cy="76"  rx="15" ry="9"/>
+                  <ellipse class="flow" style="--pd:4.4s; --dur:5s" cx="0" cy="101" rx="15" ry="9"/>
+                </g>
+                <g fill="#33d6a6">
+                  <circle class="drift" style="--pd:0s"   cx="120" cy="60" r="4"/>
+                  <circle class="drift" style="--pd:1s"   cx="210" cy="62" r="4"/>
+                  <circle class="drift" style="--pd:2s"   cx="300" cy="59" r="4"/>
+                </g>
+                <text x="8" y="34" font-size="10" fill="#9aa8c4">O₂ leaves the cell by diffusion</text>
+                <text x="8" y="150" font-size="10" fill="#9aa8c4">red blood cells carry the rest</text>
+              </svg>
+              <span class="viz__cap">A capillary: convection for the long haul, diffusion for the last micrometre</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="slide" aria-label="Medical Physics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 02</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">02</span>
-          <h2>Medical Physics</h2>
+    <!-- ══════════ 4 · BIOPHYSICS · WORKED EXAMPLE ══════════ -->
+    <section class="slide board" aria-label="Biophysics — worked example">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 01 · Worked example</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">01</span>
+              <h2>Why cells stay small</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              A single cell has no pump and no lungs. It gets its oxygen by <strong>diffusion alone</strong>.
+              How long does that take — and what happens if you scale it up to a whole animal?
+            </p>
+            <ol class="steps">
+              <li class="anim" style="--d:.18s">
+                <span class="step__k">Model it</span>
+                <p>Diffusion spreads a substance over a distance L in roughly</p>
+                <span class="m">t ≈ L² / 2D &nbsp;&nbsp;with&nbsp; D(O₂ in tissue) ≈ 2 × 10<sup>−9</sup> m²/s</span>
+              </li>
+              <li class="anim" style="--d:.26s">
+                <span class="step__k">At cell scale — L = 10 μm</span>
+                <p>L = 1 × 10<sup>−5</sup> m, so</p>
+                <span class="m">t = (10<sup>−5</sup>)² / (2 × 2 × 10<sup>−9</sup>) = <b>0.025 s ≈ 25 ms</b></span>
+              </li>
+              <li class="anim" style="--d:.34s">
+                <span class="step__k">At tissue scale — L = 10 cm</span>
+                <p>L = 0.1 m, so</p>
+                <span class="m">t = (0.1)² / (4 × 10<sup>−9</sup>) = 2.5 × 10<sup>6</sup> s ≈ <b>29 days</b></span>
+              </li>
+            </ol>
+            <div class="answer anim" style="--d:.42s">
+              <span class="answer__k">Takeaway</span>
+              <span class="big" data-to="25" data-dec="0" data-suffix=" ms">25 ms</span>
+              <p>Diffusion is only practical across <strong>micrometres</strong>. So cells stay tiny,
+                blood does the long-distance carrying, and a 10 cm lump of tissue would starve at its
+                centre long before the oxygen arrived.</p>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/bio-example.jpg" width="960" height="772" loading="lazy" decoding="async"
+                   alt="Transmission electron micrograph of a red blood cell inside a capillary in pancreatic tissue." />
+              <figcaption>
+                <b>A red blood cell squeezing through a capillary.</b> The delivery system that
+                diffusion cannot provide. Photo: Louisa Howard, public domain.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 170" role="img" aria-label="Animation comparing diffusion across a 10 micrometre cell, which fills in 25 milliseconds, with diffusion across 10 centimetres of tissue, which would take 29 days.">
+                <title>Diffusion time scales as distance squared</title>
+                <rect x="24" y="40" width="120" height="88" rx="4" fill="rgba(91,140,255,.06)" stroke="rgba(91,140,255,.5)"/>
+                <rect x="216" y="40" width="160" height="88" rx="4" fill="rgba(91,140,255,.06)" stroke="rgba(91,140,255,.5)"/>
+                <g fill="#33d6a6">
+                  <circle class="pop" style="--pd:.5s; --dx:0"   cx="34" cy="84" r="4"/>
+                  <circle class="pop" style="--pd:.6s"  cx="34" cy="64" r="4" />
+                  <circle class="pop" style="--pd:.7s"  cx="34" cy="104" r="4"/>
+                  <circle class="pop" style="--pd:.8s"  cx="80" cy="70" r="4"/>
+                  <circle class="pop" style="--pd:.9s"  cx="105" cy="95" r="4"/>
+                  <circle class="pop" style="--pd:1s"   cx="132" cy="84" r="4"/>
+                  <circle class="pop" style="--pd:1.1s" cx="92" cy="115" r="4"/>
+                  <circle class="pop" style="--pd:1.2s" cx="118" cy="55" r="4"/>
+                </g>
+                <g fill="#ffb454">
+                  <circle class="pop" style="--pd:.5s" cx="226" cy="84" r="4"/>
+                  <circle class="pop" style="--pd:.6s" cx="226" cy="64" r="4"/>
+                  <circle class="pop" style="--pd:.7s" cx="226" cy="104" r="4"/>
+                  <circle class="pop" style="--pd:.8s" cx="246" cy="76" r="4"/>
+                  <circle class="pop" style="--pd:.9s" cx="243" cy="98" r="4"/>
+                  <circle class="pop" style="--pd:1s"  cx="262" cy="84" r="4"/>
+                </g>
+                <path d="M296 40 V128" stroke="#ffb454" stroke-width="1.5" stroke-dasharray="5 5" fill="none"/>
+                <text x="303" y="34" font-size="9.5" fill="#ffb454">halfway</text>
+                <text x="24" y="146" font-size="10" fill="#33d6a6">cell · 10 μm · 25 ms</text>
+                <text x="216" y="146" font-size="10" fill="#ffb454">tissue · 10 cm · 29 days</text>
+                <text x="24" y="28" font-size="9.5" fill="#9aa8c4">t ≈ L² / 2D — 10,000× the distance, 10,000× the wait</text>
+              </svg>
+              <span class="viz__cap">Quadruple the distance and you wait sixteen times longer</span>
+            </div>
+          </div>
         </div>
-        <p>
-          It applies physical principles to develop techniques and technologies for health
-          diagnosis and treatment.
-        </p>
-        <p>
-          Examples include imaging techniques such as X-rays, ultrasound, MRIs, and CT scans,
-          as well as radiation therapy for cancer treatment.
-        </p>
-        <div class="tags">
-          <span class="tag">X-rays</span>
-          <span class="tag">Ultrasound</span>
-          <span class="tag">MRI</span>
-          <span class="tag">CT scans</span>
-          <span class="tag">Radiation therapy</span>
+      </div>
+    </section>
+    <!-- ══════════ 5 · MEDICAL PHYSICS · CONCEPT ══════════ -->
+    <section class="slide board" aria-label="Medical physics — concept">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 02 · Concept board</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">02</span>
+              <h2>Medical Physics</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              It applies physical principles to build techniques and technologies for
+              <strong>diagnosis and treatment</strong> — waves, radiation and magnetism pointed at the
+              human body, then read back as information.
+            </p>
+            <div class="points">
+              <div class="point anim" style="--d:.18s">
+                <span class="point__k">Imaging — seeing inside without cutting</span>
+                <p><strong>X-rays &amp; CT</strong> measure how a beam is absorbed on its way through;
+                  <strong>ultrasound</strong> listens for echoes bouncing off boundaries between materials;
+                  <strong>MRI</strong> watches hydrogen nuclei precess in a 1.5–3 tesla magnetic field;
+                  <strong>PET</strong> catches the two photons made when a positron meets an electron.</p>
+              </div>
+              <div class="point anim" style="--d:.24s">
+                <span class="point__k">Treatment — aiming the energy</span>
+                <p>A linear accelerator steers electrons at a tumour. Thanks to the <strong>Bragg peak</strong>,
+                  the beam deposits most of its dose at exactly the depth of the tumour and little in the
+                  tissue in front — everything else is dosimetry: energy absorbed per kilogram, in gray.</p>
+              </div>
+            </div>
+            <div class="tags anim" style="--d:.3s">
+              <span class="tag">X-rays</span>
+              <span class="tag">Ultrasound</span>
+              <span class="tag">MRI</span>
+              <span class="tag">CT</span>
+              <span class="tag">PET</span>
+              <span class="tag">Radiation therapy</span>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/med-concept.jpg" width="960" height="595" loading="lazy" decoding="async"
+                   alt="A patient lying on the table of a Siemens Magnetom Aera MRI scanner in a hospital room." />
+              <figcaption>
+                <b>An MRI scanner.</b> A superconducting magnet, gradient coils and radio antennas —
+                a physics experiment with a patient in the middle of it.
+                Photo: Ptrump16, <a href="https://commons.wikimedia.org/wiki/File:Siemens_Magnetom_Aera_MRI_scanner.jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a>.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 180" role="img" aria-label="Animation: a CT scanner ring rotates around a patient cross-section, sweeping an X-ray beam through the body.">
+                <title>Computed tomography: one beam, many angles</title>
+                <g class="spin" style="--ox:200px; --oy:90px; --dur:9s">
+                  <circle cx="200" cy="90" r="72" fill="none" stroke="rgba(91,140,255,.55)" stroke-width="2" stroke-dasharray="10 7"/>
+                  <rect x="188" y="6" width="24" height="14" rx="3" fill="#5b8cff"/>
+                  <rect x="188" y="160" width="24" height="14" rx="3" fill="#ffb454"/>
+                  <path d="M200 20 V70 M200 110 V160" stroke="rgba(255,180,84,.75)" stroke-width="1.5" stroke-dasharray="6 5"/>
+                </g>
+                <ellipse cx="200" cy="90" rx="42" ry="22" fill="rgba(232,237,247,.14)" stroke="rgba(232,237,247,.5)"/>
+                <ellipse cx="216" cy="90" rx="9" ry="7" fill="rgba(232,237,247,.75)"/>
+                <text x="200" y="128" text-anchor="middle" font-size="9.5" fill="#9aa8c4">patient</text>
+                <text x="212" y="16" font-size="9" fill="#5b8cff">detector</text>
+                <text x="212" y="176" font-size="9" fill="#ffb454">X-ray tube</text>
+                <text x="14" y="94" font-size="9.5" fill="#9aa8c4">360 angles</text>
+                <text x="14" y="108" font-size="9.5" fill="#9aa8c4">→ 1 slice</text>
+              </svg>
+              <span class="viz__cap">CT = one projection at a time, reassembled by a computer</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="slide" aria-label="Astrophysics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 03</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">03</span>
-          <h2>Astrophysics</h2>
-        </div>
-        <p>
-          It deals with the physical properties and processes of celestial bodies and phenomena.
-        </p>
-        <p>
-          For example, studying the interaction between matter and energy in space helps us
-          understand the universe as a whole.
-        </p>
-        <div class="tags">
-          <span class="tag">Celestial bodies</span>
-          <span class="tag">Matter &amp; energy</span>
-          <span class="tag">The universe</span>
+    <!-- ══════════ 6 · MEDICAL PHYSICS · WORKED EXAMPLE ══════════ -->
+    <section class="slide board" aria-label="Medical physics — worked example">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 02 · Worked example</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">02</span>
+              <h2>How an X-ray makes a picture</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              On a radiograph, <strong>bone is white</strong> and muscle is grey. Both are hit by exactly
+              the same beam — so the difference is pure physics.
+            </p>
+            <ol class="steps">
+              <li class="anim" style="--d:.18s">
+                <span class="step__k">The law</span>
+                <p>Every centimetre of tissue absorbs a fixed fraction of the beam, so the intensity falls
+                  off exponentially:</p>
+                <span class="m">I = I₀ · e<sup>−μx</sup> &nbsp;&nbsp;(μ = attenuation coefficient)</span>
+              </li>
+              <li class="anim" style="--d:.26s">
+                <span class="step__k">Two materials at 60 keV</span>
+                <p>Soft tissue is mostly water (Z ≈ 7); bone is loaded with calcium (Z = 20), which
+                  absorbs far harder:</p>
+                <span class="m">μ<sub>muscle</sub> ≈ 0.21 cm<sup>−1</sup> &nbsp;·&nbsp; μ<sub>bone</sub> ≈ 0.9 cm<sup>−1</sup></span>
+              </li>
+              <li class="anim" style="--d:.34s">
+                <span class="step__k">Send it through 5 cm of each</span>
+                <p>Muscle: e<sup>−1.07</sup> ≈ 0.34. Bone: e<sup>−4.5</sup> ≈ 0.011.</p>
+                <span class="m">muscle <b>34%</b> gets through &nbsp;·&nbsp; bone <b>1.1%</b> gets through</span>
+              </li>
+            </ol>
+            <div class="answer anim" style="--d:.42s">
+              <span class="answer__k">Takeaway</span>
+              <span class="big" data-to="30" data-dec="0" data-suffix="× less">30× less</span>
+              <p>Over the same 5 cm, bone transmits about <strong>30× less</strong> beam than muscle —
+                the detector records almost nothing there, so it prints white. (Half-value layer:
+                3.2 cm of muscle, but only 0.8 cm of bone, to halve the beam.)</p>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/med-example.jpg" width="960" height="1287" loading="lazy" decoding="async"
+                   alt="Plain X-ray of a right knee, showing the femur, tibia and patella as white shapes against dark soft tissue." />
+              <figcaption>
+                <b>A knee radiograph.</b> The white shapes are exactly where the beam was absorbed
+                most — femur, tibia, patella. Photo: Ptrump16,
+                <a href="https://commons.wikimedia.org/wiki/File:Knee_plain_X-ray.jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a>.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 180" role="img" aria-label="Diagram: an X-ray beam passes through muscle and bone; the detector shows 34 percent transmission through muscle but only 1.1 percent through bone.">
+                <title>Exponential attenuation in muscle and bone</title>
+                <rect x="8" y="66" width="34" height="34" rx="4" fill="#5b8cff" opacity=".85"/>
+                <text x="25" y="118" text-anchor="middle" font-size="9" fill="#9aa8c4">X-ray</text>
+                <path class="dash" d="M46 76 H344 M46 86 H344 M46 96 H344" stroke="rgba(255,180,84,.85)" stroke-width="2" stroke-dasharray="9 9" fill="none"/>
+                <rect x="130" y="52" width="96" height="62" rx="5" fill="rgba(232,237,247,.16)" stroke="rgba(232,237,247,.45)"/>
+                <text x="178" y="45" text-anchor="middle" font-size="9.5" fill="#cfe0ff">muscle · 5 cm</text>
+                <rect x="172" y="66" width="30" height="36" rx="3" fill="rgba(255,255,255,.82)"/>
+                <text x="187" y="130" text-anchor="middle" font-size="9.5" fill="#fff">bone</text>
+                <rect x="344" y="40" width="44" height="104" rx="4" fill="none" stroke="rgba(91,140,255,.6)"/>
+                <rect class="fill" style="--ox:352px; --oy:136px; --pd:.6s" x="352" y="99" width="13" height="37" fill="#33d6a6"/>
+                <rect class="fill" style="--ox:371px; --oy:136px; --pd:.9s" x="371" y="133" width="13" height="3" fill="#ffb454"/>
+                <path d="M350 99 H367" stroke="#33d6a6" stroke-width="1" stroke-dasharray="3 3"/>
+                <text x="358" y="93" text-anchor="middle" font-size="9.5" fill="#33d6a6">34%</text>
+                <text x="377" y="127" text-anchor="middle" font-size="9.5" fill="#ffb454">1.1%</text>
+                <text x="366" y="158" text-anchor="middle" font-size="9" fill="#9aa8c4">detector</text>
+              </svg>
+              <span class="viz__cap">The same beam, two materials — the gap is the picture</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="slide" aria-label="Geophysics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 04</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">04</span>
-          <h2>Geophysics</h2>
-        </div>
-        <p>
-          It applies physical principles to the study of the Earth's internal structure, its
-          magnetic and gravitational fields, seismic activity (earthquakes), volcanoes, and more.
-        </p>
-        <div class="tags">
-          <span class="tag">Internal structure</span>
-          <span class="tag">Magnetic fields</span>
-          <span class="tag">Gravity</span>
-          <span class="tag">Earthquakes</span>
-          <span class="tag">Volcanoes</span>
+    <!-- ══════════ 7 · ASTROPHYSICS · CONCEPT ══════════ -->
+    <section class="slide board" aria-label="Astrophysics — concept">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 03 · Concept board</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">03</span>
+              <h2>Astrophysics</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              It deals with the physical properties and processes of celestial bodies and phenomena —
+              <strong>matter and energy on the largest scales</strong>, tested against the one universe
+              we are allowed to experiment on.
+            </p>
+            <div class="points">
+              <div class="point anim" style="--d:.18s">
+                <span class="point__k">What it studies</span>
+                <p>How stars ignite and die, what planets and galaxies are made of, what happens where
+                  gravity is extreme, how the universe expands — and where all the heavy elements came from.</p>
+              </div>
+              <div class="point anim" style="--d:.24s">
+                <span class="point__k">How physics gets in</span>
+                <p><strong>Gravity</strong> shapes orbits and tides; <strong>nuclear physics</strong> lights
+                  the stars; <strong>thermodynamics &amp; radiation</strong> turn starlight into temperature
+                  and chemical composition (spectroscopy); <strong>relativity</strong> bends light and keeps
+                  GPS honest.</p>
+              </div>
+            </div>
+            <div class="tags anim" style="--d:.3s">
+              <span class="tag">Gravity</span>
+              <span class="tag">Radiation</span>
+              <span class="tag">Nuclear fusion</span>
+              <span class="tag">Spectroscopy</span>
+              <span class="tag">Relativity</span>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/astro-concept.jpg" width="960" height="628" loading="lazy" decoding="async"
+                   alt="The ALMA radio telescope array on the Chajnantor plateau at night, with the Milky Way overhead." />
+              <figcaption>
+                <b>ALMA, 5,000 m up in the Atacama.</b> 66 radio antennas, phase-shifted so they act as
+                one telescope the size of the array.
+                Photo: ESO/José Francisco Salgado, <a href="https://commons.wikimedia.org/wiki/File:ALMA_Greater_than_the_Sum_of_its_Parts_(cropped).jpg" target="_blank" rel="noopener">CC BY 3.0</a>.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 180" role="img" aria-label="Animation: a planet orbits a star while radio waves travel in from the right to a dish antenna.">
+                <title>Orbits and incoming radiation</title>
+                <ellipse cx="120" cy="92" rx="96" ry="54" fill="none" stroke="rgba(91,140,255,.35)" stroke-dasharray="6 6"/>
+                <circle class="glow" cx="120" cy="92" r="20" fill="#ffb454" opacity=".9" style="transform-origin:120px 92px"/>
+                <text x="120" y="128" text-anchor="middle" font-size="9.5" fill="#9aa8c4">star</text>
+                <g class="spin" style="--ox:120px; --oy:92px; --dur:10s">
+                  <circle cx="216" cy="92" r="9" fill="#5b8cff"/>
+                  <circle cx="213" cy="89" r="3" fill="rgba(255,255,255,.6)"/>
+                </g>
+                <g stroke="rgba(51,214,166,.8)" stroke-width="2" fill="none">
+                  <path class="flow" style="--dur:3.6s; animation-direction:reverse" d="M250 44 A52 52 0 0 0 250 140"/>
+                  <path class="flow" style="--dur:3.6s; animation-direction:reverse; --pd:.9s" d="M285 36 A62 62 0 0 0 285 148"/>
+                  <path class="flow" style="--dur:3.6s; animation-direction:reverse; --pd:1.8s" d="M320 30 A70 70 0 0 0 320 154"/>
+                </g>
+                <path d="M356 60 A34 34 0 0 1 356 124" fill="none" stroke="#e8edf7" stroke-width="3"/>
+                <path d="M356 92 L384 78 M356 92 L384 106" stroke="#e8edf7" stroke-width="2" fill="none"/>
+                <text x="330" y="170" text-anchor="middle" font-size="9.5" fill="#33d6a6">light in</text>
+              </svg>
+              <span class="viz__cap">Every observation is a measurement of radiation arriving here</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="slide" aria-label="Climate Physics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 05</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">05</span>
-          <h2>Climate Physics</h2>
+    <!-- ══════════ 8 · ASTROPHYSICS · WORKED EXAMPLE ══════════ -->
+    <section class="slide board" aria-label="Astrophysics — worked example">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 03 · Worked example</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">03</span>
+              <h2>Seeing the past: the Crab Nebula</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              In July 1054 astronomers recorded a “guest star” bright enough to see in daylight.
+              Today we photograph its wreckage — and <strong>two measurements</strong> fall out of one picture.
+            </p>
+            <ol class="steps">
+              <li class="anim" style="--d:.18s">
+                <span class="step__k">Light takes time</span>
+                <p>c = 3.00 × 10<sup>8</sup> m/s, and the Crab is about 6,500 light-years away
+                  (6.15 × 10<sup>19</sup> m):</p>
+                <span class="m">t = d / c = 6.15×10<sup>19</sup> / 3.00×10<sup>8</sup> = 2.05×10<sup>11</sup> s ≈ <b>6,500 years</b></span>
+              </li>
+              <li class="anim" style="--d:.26s">
+                <span class="step__k">So when did it happen?</span>
+                <p>The light arrived in 1054, so the explosion itself happened about 6,500 years
+                  earlier — around <strong>4,500 BC</strong>. 1054 is just our postmark.</p>
+              </li>
+              <li class="anim" style="--d:.34s">
+                <span class="step__k">How big is it now?</span>
+                <p>The debris still flies outward at ≈ 1,500 km/s. Over 972 years (1054 → 2026):</p>
+                <span class="m">r = vt = 1500 km/s × 3.07×10<sup>10</sup> s = 4.6×10<sup>13</sup> km ≈ <b>4.9 ly radius</b></span>
+              </li>
+            </ol>
+            <div class="answer anim" style="--d:.42s">
+              <span class="answer__k">Takeaway</span>
+              <span class="big" data-to="10" data-dec="0" data-suffix=" ly across">10 ly across</span>
+              <p>One number comes from the <strong>speed of light</strong> (distance, and how far into the
+                past we are looking); the other from the <strong>speed of the gas</strong> (size). Both are
+                read off a single photograph.</p>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/astro-example.jpg" width="960" height="960" loading="lazy" decoding="async"
+                   alt="Hubble Space Telescope mosaic of the Crab Nebula, showing orange filaments of gas around a blue interior." />
+              <figcaption>
+                <b>The Crab Nebula.</b> Filaments of the exploded star, still expanding.
+                Photo: NASA/ESA, Hester &amp; Loll (Arizona State University), public domain.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 170" role="img" aria-label="Animation: a supernova at the left throws out expanding shells while a light pulse crosses 6,500 light-years to an observer at the right.">
+                <title>Expanding shell plus light-travel time</title>
+                <g fill="none" stroke="#33d6a6" stroke-width="2">
+                  <circle class="ring" style="--pd:0s;   transform-origin:70px 85px" cx="70" cy="85" r="44"/>
+                  <circle class="ring" style="--pd:.9s;  transform-origin:70px 85px" cx="70" cy="85" r="44"/>
+                  <circle class="ring" style="--pd:1.8s; transform-origin:70px 85px" cx="70" cy="85" r="44"/>
+                </g>
+                <circle cx="70" cy="85" r="12" fill="#ffb454" class="glow" style="transform-origin:70px 85px"/>
+                <text x="70" y="132" text-anchor="middle" font-size="9.5" fill="#ffb454">1,500 km/s</text>
+                <path class="dash" d="M112 85 H352" stroke="rgba(91,140,255,.7)" stroke-width="2" stroke-dasharray="8 8" fill="none"/>
+                <text x="232" y="74" text-anchor="middle" font-size="10" fill="#cfe0ff">6,500 light-years</text>
+                <text x="232" y="107" text-anchor="middle" font-size="10" fill="#9aa8c4">= 6,500 years of travel</text>
+                <g fill="none" stroke="#e8edf7" stroke-width="2.5">
+                  <path d="M356 70 A22 22 0 0 1 356 100"/>
+                </g>
+                <circle cx="366" cy="85" r="4" fill="#e8edf7"/>
+                <text x="360" y="126" text-anchor="middle" font-size="9.5" fill="#9aa8c4">you, 1054 AD</text>
+              </svg>
+              <span class="viz__cap">The delay in the light is the distance — and the date of the explosion</span>
+            </div>
+          </div>
         </div>
-        <p>
-          It involves the study of physical processes in the environment, including atmospheric
-          dynamics, climate change, and weather conditions.
-        </p>
-        <div class="tags">
-          <span class="tag">Atmospheric dynamics</span>
-          <span class="tag">Climate change</span>
-          <span class="tag">Weather</span>
+      </div>
+    </section>
+    <!-- ══════════ 9 · GEOPHYSICS · CONCEPT ══════════ -->
+    <section class="slide board" aria-label="Geophysics — concept">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 04 · Concept board</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">04</span>
+              <h2>Geophysics</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              It applies physical principles to the Earth’s internal structure, its magnetic and
+              gravitational fields, seismic activity, volcanoes and more — a planet we can
+              <strong>never open up</strong>, so we listen to it instead.
+            </p>
+            <div class="points">
+              <div class="point anim" style="--d:.18s">
+                <span class="point__k">What it studies</span>
+                <p>The layered interior — crust, mantle, liquid outer core, solid inner core; the
+                  convection that drives plate tectonics; gravity anomalies that betray hidden density;
+                  the magnetic field generated by circulating molten iron.</p>
+              </div>
+              <div class="point anim" style="--d:.24s">
+                <span class="point__k">How physics gets in</span>
+                <p><strong>Seismology</strong> is elastic wave propagation; <strong>gravity surveys</strong>
+                  are Newton’s law; <strong>heat flow</strong> is thermodynamics; the
+                  <strong>geodynamo</strong> is electromagnetism; rock fracture is plain mechanics.</p>
+              </div>
+            </div>
+            <div class="tags anim" style="--d:.3s">
+              <span class="tag">Seismology</span>
+              <span class="tag">Gravity</span>
+              <span class="tag">Rock mechanics</span>
+              <span class="tag">Geomagnetism</span>
+              <span class="tag">Heat flow</span>
+              <span class="tag">Plate tectonics</span>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/geo-concept.jpg" width="960" height="640" loading="lazy" decoding="async"
+                   alt="Aerial photograph of the San Andreas Fault cutting a straight line across the Carrizo Plain." />
+              <figcaption>
+                <b>The San Andreas Fault across the Carrizo Plain</b>, from 2,600 m — a plate boundary
+                you can follow with your eyes. Photo: Ikluft,
+                <a href="https://commons.wikimedia.org/wiki/File:Kluft-photo-Carrizo-Plain-Nov-2007-Img_0327.jpg" target="_blank" rel="noopener">CC BY-SA 4.0</a>.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 180" role="img" aria-label="Animation: seismic waves radiate outward and downward from an epicentre through the crust, mantle and outer core.">
+                <title>Waves spreading through a layered Earth</title>
+                <path d="M0 44 H400" stroke="rgba(232,237,247,.55)" stroke-width="2" fill="none"/>
+                <path d="M0 84 Q200 100 400 84" stroke="rgba(91,140,255,.4)" stroke-width="1.5" fill="none"/>
+                <path d="M0 126 Q200 144 400 126" stroke="rgba(91,140,255,.4)" stroke-width="1.5" fill="none"/>
+                <path d="M0 164 Q200 178 400 164" stroke="rgba(255,180,84,.4)" stroke-width="1.5" fill="none"/>
+                <g fill="none" stroke="#33d6a6" stroke-width="2">
+                  <circle class="ring" style="--pd:0s;   transform-origin:200px 44px" cx="200" cy="44" r="66"/>
+                  <circle class="ring" style="--pd:.85s; transform-origin:200px 44px" cx="200" cy="44" r="66"/>
+                  <circle class="ring" style="--pd:1.7s; transform-origin:200px 44px" cx="200" cy="44" r="66"/>
+                </g>
+                <path d="M200 36 l6 14 l15 2 l-11 10 l3 15 l-13 -8 l-13 8 l3 -15 l-11 -10 l15 -2 z" fill="#ff6b6b"/>
+                <text x="222" y="30" font-size="9.5" fill="#ff6b6b">epicentre</text>
+                <text x="8" y="78" font-size="9.5" fill="#9aa8c4">crust</text>
+                <text x="8" y="120" font-size="9.5" fill="#9aa8c4">mantle</text>
+                <text x="8" y="158" font-size="9.5" fill="#ffb454">outer core (liquid)</text>
+                <text x="300" y="176" font-size="9.5" fill="#9aa8c4">P and S waves</text>
+              </svg>
+              <span class="viz__cap">The Earth is opaque to light — elastic waves are how we see inside</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="slide" aria-label="Computational Physics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 06</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">06</span>
-          <h2>Computational Physics</h2>
-        </div>
-        <p>
-          It involves using numerical methods and computer simulations to solve complex physical
-          problems that cannot be easily solved analytically.
-        </p>
-        <div class="tags">
-          <span class="tag">Numerical methods</span>
-          <span class="tag">Simulations</span>
-          <span class="tag">Complex problems</span>
+    <!-- ══════════ 10 · GEOPHYSICS · WORKED EXAMPLE ══════════ -->
+    <section class="slide board" aria-label="Geophysics — worked example">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 04 · Worked example</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">04</span>
+              <h2>Finding an earthquake with a stopwatch</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              Two waves leave the same fault at the same instant. The <strong>gap between their
+              arrivals</strong> tells you how far away the quake was — no satellite, no GPS, just a clock.
+            </p>
+            <ol class="steps">
+              <li class="anim" style="--d:.18s">
+                <span class="step__k">The two runners</span>
+                <p><strong>P waves</strong> squeeze and stretch the rock — fast, ≈ 8 km/s.
+                  <strong>S waves</strong> shake it sideways — slow, ≈ 4.5 km/s.</p>
+              </li>
+              <li class="anim" style="--d:.26s">
+                <span class="step__k">The clock</span>
+                <p>For a distance d the arrivals are t<sub>P</sub> = d/8 and t<sub>S</sub> = d/4.5, so the
+                  gap grows in a straight line:</p>
+                <span class="m">Δt = d (1/4.5 − 1/8) = <b>0.097 d</b> &nbsp;(d in km, Δt in seconds)</span>
+              </li>
+              <li class="anim" style="--d:.34s">
+                <span class="step__k">The reading</span>
+                <p>A station logs S arriving 60 s after P:</p>
+                <span class="m">d = 60 / 0.097 ≈ <b>620 km</b> from the fault</span>
+              </li>
+            </ol>
+            <div class="answer anim" style="--d:.42s">
+              <span class="answer__k">Takeaway</span>
+              <span class="big" data-to="10" data-dec="0" data-suffix=" km per second">10 km per second</span>
+              <p>of gap. Three stations, three circles of that radius, and the crossing point is the
+                epicentre. <strong>Bonus:</strong> S waves vanish beyond ≈ 104° from the quake because they
+                cannot travel through liquid — that is how we discovered the outer core is molten.</p>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/geo-example.jpg" width="960" height="720" loading="lazy" decoding="async"
+                   alt="A paper seismogram recorded at Weston Observatory, showing a dense band of earthquake traces." />
+              <figcaption>
+                <b>A paper seismogram, Weston Observatory.</b> The wiggle is ground motion, picked up by
+                a suspended mass dragging a pen across moving paper. Photo: Z22,
+                <a href="https://commons.wikimedia.org/wiki/File:Seismogram_at_Weston_Observatory.JPG" target="_blank" rel="noopener">CC BY-SA 3.0</a>.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 170" role="img" aria-label="Animation: a seismogram trace draws itself, showing a small P-wave arrival followed by a larger S-wave arrival sixty seconds later.">
+                <title>P and S arrivals, sixty seconds apart</title>
+                <path d="M30 88 H380" stroke="rgba(232,237,247,.25)" stroke-width="1" fill="none"/>
+                <path class="draw" pathLength="1" style="animation-duration:2.8s"
+                      d="M30 88 L118 88 q7 -10 14 0 t14 0 t14 0 t14 0 t14 0 L212 88 L236 88 q9 -26 18 0 t18 0 t18 0 t18 0 t18 0 t18 0 L380 88"
+                      fill="none" stroke="#33d6a6" stroke-width="1.8"/>
+                <g class="pop" style="--pd:1.1s">
+                  <path d="M118 40 V132" stroke="#5b8cff" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+                  <text x="124" y="36" font-size="10" fill="#5b8cff">P wave</text>
+                </g>
+                <g class="pop" style="--pd:2.6s">
+                  <path d="M236 40 V132" stroke="#ffb454" stroke-width="1.5" stroke-dasharray="4 4" fill="none"/>
+                  <text x="242" y="36" font-size="10" fill="#ffb454">S wave</text>
+                </g>
+                <g class="pop" style="--pd:3.2s">
+                  <path d="M118 146 H236" stroke="#e8edf7" stroke-width="1.5" fill="none"/>
+                  <path d="M118 142 V150 M236 142 V150" stroke="#e8edf7" stroke-width="1.5"/>
+                  <text x="177" y="164" text-anchor="middle" font-size="10" fill="#e8edf7">Δt = 60 s → 620 km</text>
+                </g>
+                <text x="30" y="164" font-size="9.5" fill="#9aa8c4">time →</text>
+              </svg>
+              <span class="viz__cap">Every second of separation adds about 10 km of distance</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
+    <!-- ══════════ 11 · CLIMATE PHYSICS · CONCEPT ══════════ -->
+    <section class="slide board" aria-label="Climate physics — concept">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 05 · Concept board</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">05</span>
+              <h2>Climate Physics</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              It involves the study of physical processes in the environment — atmospheric dynamics,
+              climate change and weather — all of it ruled by
+              <strong>energy coming in and energy going out</strong>.
+            </p>
+            <div class="points">
+              <div class="point anim" style="--d:.18s">
+                <span class="point__k">What it studies</span>
+                <p>Where Earth’s energy comes from and where it goes; how greenhouse gases absorb and
+                  re-emit infrared; winds and storms as fluid flow; clouds, ice and water vapour as
+                  feedbacks that either dampen or amplify a change.</p>
+              </div>
+              <div class="point anim" style="--d:.24s">
+                <span class="point__k">How physics gets in</span>
+                <p><strong>Planck &amp; Stefan–Boltzmann</strong> radiation laws; the thermodynamics of
+                  phase change (the latent heat of condensation is what a hurricane runs on);
+                  <strong>Navier–Stokes</strong> for the atmosphere; and quantum mechanics, which decides
+                  exactly which wavelengths CO₂ and H₂O absorb.</p>
+              </div>
+            </div>
+            <div class="tags anim" style="--d:.3s">
+              <span class="tag">Radiative transfer</span>
+              <span class="tag">Greenhouse effect</span>
+              <span class="tag">Fluid dynamics</span>
+              <span class="tag">Feedbacks</span>
+              <span class="tag">Latent heat</span>
+              <span class="tag">Remote sensing</span>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/climate-concept.jpg" width="960" height="642" loading="lazy" decoding="async"
+                   alt="Hurricane Florence photographed from the International Space Station, showing its eye and spiral cloud bands." />
+              <figcaption>
+                <b>Hurricane Florence from the ISS.</b> A heat engine that runs on warm ocean water and
+                pays the energy back as rain and wind. Photo: Alexander Gerst (ESA/NASA), public domain.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 180" role="img" aria-label="Animation: sunlight reaches the surface, the surface emits infrared upward, and greenhouse gas molecules absorb and re-emit part of it back down.">
+                <title>The greenhouse effect in one picture</title>
+                <circle cx="42" cy="34" r="15" fill="#ffb454" class="glow" style="transform-origin:42px 34px"/>
+                <path class="dash" d="M62 46 L176 132" stroke="#ffb454" stroke-width="2.5" stroke-dasharray="10 8" fill="none"/>
+                <path d="M170 138 l14 -10 l2 14 z" fill="#ffb454"/>
+                <text x="74" y="70" font-size="9.5" fill="#ffb454">sunlight in</text>
+                <rect x="0" y="140" width="400" height="40" fill="rgba(51,214,166,.10)"/>
+                <path d="M0 140 H400" stroke="rgba(51,214,166,.7)" stroke-width="2" fill="none"/>
+                <path class="dash" d="M244 136 V72" stroke="#5b8cff" stroke-width="2.5" stroke-dasharray="9 7" fill="none"/>
+                <path d="M238 78 l6 -14 l6 14 z" fill="#5b8cff"/>
+                <text x="256" y="106" font-size="9.5" fill="#5b8cff">heat out (IR)</text>
+                <g fill="#ff6b6b" class="blink" style="--pd:0s">
+                  <circle cx="120" cy="76" r="7"/><circle cx="196" cy="64" r="7"/><circle cx="320" cy="80" r="7"/>
+                </g>
+                <g fill="#fff" font-size="7.5" text-anchor="middle" font-weight="700">
+                  <text x="120" y="79">CO₂</text><text x="196" y="67">CO₂</text><text x="320" y="83">H₂O</text>
+                </g>
+                <path class="dash" d="M320 92 V134" stroke="#ff6b6b" stroke-width="2.5" stroke-dasharray="9 7" fill="none"/>
+                <path d="M314 128 l6 14 l6 -14 z" fill="#ff6b6b"/>
+                <text x="332" y="120" font-size="9.5" fill="#ff6b6b">sent back down</text>
+                <text x="8" y="168" font-size="9.5" fill="#9aa8c4">surface</text>
+              </svg>
+              <span class="viz__cap">Energy in must equal energy out — the atmosphere changes the route</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ 12 · CLIMATE PHYSICS · WORKED EXAMPLE ══════════ -->
+    <section class="slide board" aria-label="Climate physics — worked example">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 05 · Worked example</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">05</span>
+              <h2>Earth’s thermostat, from three constants</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              The solar constant, the albedo and one radiation law are enough to predict the
+              temperature of a planet. <strong>Run it on Earth.</strong>
+            </p>
+            <ol class="steps">
+              <li class="anim" style="--d:.18s">
+                <span class="step__k">What Earth absorbs</span>
+                <p>S = 1361 W/m² falls on the disc, but the planet is a sphere — divide by 4 — and
+                  albedo α = 0.30 sends 30% straight back:</p>
+                <span class="m">absorbed = (1 − α) S / 4 = 0.70 × 1361 / 4 = <b>238 W/m²</b></span>
+              </li>
+              <li class="anim" style="--d:.26s">
+                <span class="step__k">What it must emit</span>
+                <p>A blackbody radiates P = σT⁴, with σ = 5.67 × 10<sup>−8</sup> W m<sup>−2</sup> K<sup>−4</sup>:</p>
+                <span class="m">T = (238 / 5.67×10<sup>−8</sup>)<sup>¼</sup> = (4.20×10<sup>9</sup>)<sup>¼</sup> = <b>255 K = −18 °C</b></span>
+              </li>
+              <li class="anim" style="--d:.34s">
+                <span class="step__k">Check it against a thermometer</span>
+                <p>The observed global mean is 288 K, i.e. +15 °C. The model is missing 33 degrees.</p>
+              </li>
+            </ol>
+            <div class="answer anim" style="--d:.42s">
+              <span class="answer__k">Takeaway</span>
+              <span class="big" data-to="33" data-dec="0" data-suffix=" K">33 K</span>
+              <p>That missing 33 kelvin <strong>is</strong> the greenhouse effect: −18 °C with no
+                atmosphere — ice everywhere — versus the +15 °C we actually live in. It comes from a few
+                hundred parts per million of trace gases whose quantum energy levels were measured in a
+                laboratory.</p>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/climate-example.jpg" width="960" height="961" loading="lazy" decoding="async"
+                   alt="The Blue Marble photograph of Earth taken by the Apollo 17 crew, showing Africa, Antarctica and the Indian Ocean." />
+              <figcaption>
+                <b>The Blue Marble, Apollo 17.</b> One hemisphere, one energy budget — every watt that
+                arrives or leaves is accounted for across this whole disc.
+                Photo: NASA, public domain.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 180" role="img" aria-label="Diagram: absorbed and emitted power are equal at 238 watts per square metre, while a thermometer scale shows minus 18 degrees without greenhouse gases versus plus 15 degrees with them.">
+                <title>Energy balance and the 33 kelvin greenhouse gap</title>
+                <text x="24" y="34" font-size="10" fill="#9aa8c4">ABSORBED SOLAR</text>
+                <rect class="pop" style="--pd:.4s" x="24" y="42" width="160" height="18" rx="4" fill="#5b8cff"/>
+                <text x="190" y="56" font-size="11" fill="#cfe0ff">238 W/m²</text>
+                <text x="24" y="98" font-size="10" fill="#9aa8c4">EMITTED INFRARED</text>
+                <rect class="pop" style="--pd:.7s" x="24" y="106" width="160" height="18" rx="4" fill="#ffb454"/>
+                <text x="190" y="120" font-size="11" fill="#cfe0ff">238 W/m²</text>
+                <text x="24" y="150" font-size="10" fill="#33d6a6">in = out → planet in balance</text>
+                <rect x="286" y="20" width="52" height="140" rx="8" fill="none" stroke="rgba(232,237,247,.45)" stroke-width="2"/>
+                <rect class="fill" style="--ox:292px; --oy:160px; --pd:.9s"  x="292" y="95" width="17" height="65" rx="4" fill="#5b8cff"/>
+                <rect class="fill" style="--ox:313px; --oy:160px; --pd:1.3s" x="313" y="43" width="17" height="117" rx="4" fill="#33d6a6"/>
+                <path d="M286 95 H338" stroke="#5b8cff" stroke-width="1" stroke-dasharray="3 3"/>
+                <path d="M286 43 H338" stroke="#33d6a6" stroke-width="1" stroke-dasharray="3 3"/>
+                <text x="344" y="99" font-size="10" fill="#5b8cff">−18 °C</text>
+                <text x="344" y="47" font-size="10" fill="#33d6a6">+15 °C</text>
+                <text x="312" y="176" text-anchor="middle" font-size="9.5" fill="#9aa8c4">surface temperature</text>
+              </svg>
+              <span class="viz__cap">Same planet, same sun — the atmosphere is worth 33 degrees</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- ══════════ 13 · COMPUTATIONAL PHYSICS · CONCEPT ══════════ -->
+    <section class="slide board" aria-label="Computational physics — concept">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 06 · Concept board</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">06</span>
+              <h2>Computational Physics</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              It uses numerical methods and computer simulations to solve physical problems that
+              <strong>cannot be solved on paper</strong> — turning equations into steps a machine can run.
+            </p>
+            <div class="points">
+              <div class="point anim" style="--d:.18s">
+                <span class="point__k">What it does</span>
+                <p><strong>Discretise</strong> space and time into a grid, march the equations forward one
+                  step at a time, sample randomly with <strong>Monte Carlo</strong> when the geometry is
+                  hopeless, solve the resulting huge systems of linear equations, then
+                  <strong>visualise</strong> the answer so a human can see it.</p>
+              </div>
+              <div class="point anim" style="--d:.24s">
+                <span class="point__k">Why it is a field of its own</span>
+                <p>The three-body problem, turbulent flow, quantum many-body systems, fusion plasmas,
+                  earthquakes, the climate — all of them resist pen and paper. The physics is unchanged;
+                  only the method of solving it is new.</p>
+              </div>
+            </div>
+            <div class="tags anim" style="--d:.3s">
+              <span class="tag">Finite differences</span>
+              <span class="tag">Monte Carlo</span>
+              <span class="tag">Linear algebra</span>
+              <span class="tag">HPC</span>
+              <span class="tag">Visualisation</span>
+              <span class="tag">Modelling</span>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/compute-concept.jpg" width="960" height="768" loading="lazy" decoding="async"
+                   alt="Rows of black Summit supercomputer cabinets lit with blue lights in a machine hall." />
+              <figcaption>
+                <b>Summit, Oak Ridge.</b> Thousands of nodes doing nothing but arithmetic fast enough to
+                stand in for a differential equation. Photo: Carlos Jones/ORNL,
+                <a href="https://commons.wikimedia.org/wiki/File:Summit_(supercomputer).jpg" target="_blank" rel="noopener">CC BY 2.0</a>.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 170" role="img" aria-label="Animation: a smooth curve is drawn, then a grid and sample points appear over it, showing how a computer stores a continuum as numbers.">
+                <title>Discretising a continuous function</title>
+                <g stroke="rgba(91,140,255,.28)" stroke-width="1">
+                  <path class="pop" style="--pd:.9s" d="M90 20 V150"/><path class="pop" style="--pd:1s" d="M150 20 V150"/>
+                  <path class="pop" style="--pd:1.1s" d="M210 20 V150"/><path class="pop" style="--pd:1.2s" d="M270 20 V150"/>
+                  <path class="pop" style="--pd:1.3s" d="M330 20 V150"/>
+                  <path class="pop" style="--pd:1s" d="M30 46 H380"/><path class="pop" style="--pd:1.15s" d="M30 96 H380"/>
+                </g>
+                <path class="draw" pathLength="1" style="animation-duration:1.6s"
+                      d="M34 40 C 90 44, 130 96, 170 118 C 220 144, 300 150, 376 151"
+                      fill="none" stroke="#33d6a6" stroke-width="2.5"/>
+                <g fill="#ffb454">
+                  <circle class="pop" style="--pd:1.4s" cx="34"  cy="40"  r="4.5"/>
+                  <circle class="pop" style="--pd:1.5s" cx="90"  cy="74"  r="4.5"/>
+                  <circle class="pop" style="--pd:1.6s" cx="150" cy="112" r="4.5"/>
+                  <circle class="pop" style="--pd:1.7s" cx="210" cy="135" r="4.5"/>
+                  <circle class="pop" style="--pd:1.8s" cx="270" cy="146" r="4.5"/>
+                  <circle class="pop" style="--pd:1.9s" cx="330" cy="150" r="4.5"/>
+                </g>
+                <text x="34" y="30" font-size="9.5" fill="#33d6a6">continuous: f(x)</text>
+                <text x="222" y="128" font-size="9.5" fill="#ffb454">stored: 6 numbers</text>
+                <text x="96" y="164" font-size="9.5" fill="#9aa8c4">Δx</text>
+                <path d="M90 156 H150" stroke="#9aa8c4" stroke-width="1" fill="none"/>
+              </svg>
+              <span class="viz__cap">A computer never sees the curve — only the points on it</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ 14 · COMPUTATIONAL PHYSICS · WORKED EXAMPLE ══════════ -->
+    <section class="slide board" aria-label="Computational physics — worked example">
+      <div class="slide__inner slide__inner--wide">
+        <div class="board__grid">
+          <div class="board__main">
+            <div class="eyebrow anim" style="--d:.02s">Field 06 · Worked example</div>
+            <div class="field-head anim" style="--d:.07s">
+              <span class="num" aria-hidden="true">06</span>
+              <h2>Falling with drag, one step at a time</h2>
+            </div>
+            <p class="lede anim" style="--d:.12s">
+              A skydiver’s equation has no tidy solution once drag is proportional to speed.
+              <strong>Don’t solve it — step it.</strong> This is the whole idea of the field, by hand.
+            </p>
+            <ol class="steps">
+              <li class="anim" style="--d:.18s">
+                <span class="step__k">Model it</span>
+                <p>With g = 9.8 m/s² and drag term b/m = 0.5 s⁻¹:</p>
+                <span class="m">dv/dt = g − (b/m) v &nbsp;→&nbsp; v<sub>terminal</sub> = 9.8 / 0.5 = <b>19.6 m/s</b></span>
+              </li>
+              <li class="anim" style="--d:.26s">
+                <span class="step__k">Take one-Euler-second steps</span>
+                <p>v<sub>n+1</sub> = v<sub>n</sub> + (9.8 − 0.5 v<sub>n</sub>)·Δt, Δt = 1 s, starting from rest:</p>
+                <span class="m">0 → <b>9.8</b> → <b>14.7</b> → <b>17.2</b> → <b>18.4</b> … (m/s)</span>
+              </li>
+              <li class="anim" style="--d:.34s">
+                <span class="step__k">Compare with the exact answer</span>
+                <p>v(t) = 19.6 (1 − e<sup>−0.5t</sup>), so at t = 1 s the truth is 7.7 m/s while Euler says 9.8 —</p>
+                <span class="m">error = (9.8 − 7.7) / 7.7 ≈ <b>27%</b> with Δt = 1 s</span>
+              </li>
+            </ol>
+            <div class="answer anim" style="--d:.42s">
+              <span class="answer__k">Takeaway</span>
+              <span class="big" data-to="0.001" data-dec="3" data-suffix=" s steps">0.001 s steps</span>
+              <p>Halve Δt and the error collapses — that is <strong>convergence</strong>. A computer runs
+                1,000,000 such steps in a second, and the identical trick scales all the way up to fusion
+                plasmas and weather forecasting.</p>
+            </div>
+          </div>
+
+          <div class="board__side">
+            <figure class="shot anim" style="--d:.16s">
+              <img src="./img/compute-example.jpg" width="960" height="1057" loading="lazy" decoding="async"
+                   alt="A Cray-1 supercomputer in a museum, with its distinctive circular column and padded bench surround." />
+              <figcaption>
+                <b>The Cray-1 (1976):</b> about 80 million floating-point operations per second — a
+                million Euler steps in a blink, and slower than the phone in your pocket.
+                Photo: Clemens PFEIFFER, <a href="https://commons.wikimedia.org/wiki/File:Cray-1-deutsches-museum.jpg" target="_blank" rel="noopener">CC BY 2.5</a>.
+              </figcaption>
+            </figure>
+            <div class="viz anim" style="--d:.26s">
+              <svg viewBox="0 0 400 180" role="img" aria-label="Graph: Euler's method with one-second steps climbs above the exact velocity curve, overshooting 9.8 metres per second where the truth is 7.7.">
+                <title>Euler steps versus the exact solution</title>
+                <path d="M40 20 V150 H380" stroke="rgba(232,237,247,.5)" stroke-width="1.5" fill="none"/>
+                <path d="M40 40 H380" stroke="#9aa8c4" stroke-width="1" stroke-dasharray="5 5" fill="none"/>
+                <text x="376" y="34" text-anchor="end" font-size="9.5" fill="#9aa8c4">19.6 m/s terminal</text>
+                <path class="draw" pathLength="1" style="animation-duration:1.6s"
+                      d="M40 150 C 80 110, 120 88, 150 81 C 200 68, 230 62, 260 55 C 300 49, 340 46, 370 45"
+                      fill="none" stroke="#33d6a6" stroke-width="2.5"/>
+                <path class="draw" pathLength="1" style="animation-duration:1.6s; animation-delay:.7s"
+                      d="M40 150 L95 95 L150 68 L205 54 L260 47"
+                      fill="none" stroke="#ffb454" stroke-width="2.5"/>
+                <g fill="#ffb454">
+                  <circle class="pop" style="--pd:1.5s" cx="40"  cy="150" r="4"/>
+                  <circle class="pop" style="--pd:1.7s" cx="95"  cy="95"  r="4"/>
+                  <circle class="pop" style="--pd:1.9s" cx="150" cy="68"  r="4"/>
+                  <circle class="pop" style="--pd:2.1s" cx="205" cy="54"  r="4"/>
+                  <circle class="pop" style="--pd:2.3s" cx="260" cy="47"  r="4"/>
+                </g>
+                <path d="M95 95 V107" stroke="#ffb454" stroke-width="1" stroke-dasharray="3 3" fill="none"/>
+                <text x="102" y="118" font-size="9.5" fill="#ffb454">Euler 9.8</text>
+                <text x="102" y="132" font-size="9.5" fill="#33d6a6">truth 7.7</text>
+                <path d="M40 164 H95" stroke="#9aa8c4" stroke-width="1" fill="none"/>
+                <path d="M40 160 V168 M95 160 V168" stroke="#9aa8c4" stroke-width="1"/>
+                <text x="67" y="178" text-anchor="middle" font-size="9.5" fill="#9aa8c4">Δt = 1 s</text>
+                <text x="300" y="170" font-size="9.5" fill="#9aa8c4">t (s) →</text>
+              </svg>
+              <span class="viz__cap">Straight lines against a curve — close enough, if the steps are small</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════ 15 · CONCLUSION ══════════ -->
     <section class="slide" aria-label="Conclusion">
-      <div class="slide__inner">
-        <div class="eyebrow">In closing</div>
-        <h2>One science, many directions</h2>
-        <p>
-          Physics supplies the principles and the tools. Other disciplines supply the questions.
-          Together they extend physics into living systems, hospitals, space, the planet, the
-          atmosphere, and the computer.
+      <div class="slide__inner slide__inner--wide">
+        <div class="eyebrow anim" style="--d:.02s">In closing</div>
+        <h2 class="anim" style="--d:.07s">One science, many directions</h2>
+        <p class="lede anim" style="--d:.12s">
+          Physics supplies the principles, the mathematics and the instruments. The other disciplines
+          supply the questions. Six fields, six problems — and every one of them was solved with the
+          same physics you already know.
         </p>
         <div class="grid">
-          <div class="card"><b>01</b><span>Biophysics — living systems</span></div>
-          <div class="card"><b>02</b><span>Medical Physics — diagnosis &amp; treatment</span></div>
-          <div class="card"><b>03</b><span>Astrophysics — the cosmos</span></div>
-          <div class="card"><b>04</b><span>Geophysics — the Earth</span></div>
-          <div class="card"><b>05</b><span>Climate Physics — the environment</span></div>
-          <div class="card"><b>06</b><span>Computational Physics — simulation</span></div>
+          <div class="card anim" style="--d:.18s"><b>01</b><span>Biophysics<i>diffusion fails past ~10 μm — so cells stay small</i></span></div>
+          <div class="card anim" style="--d:.23s"><b>02</b><span>Medical Physics<i>bone transmits ~30× less X-ray than muscle</i></span></div>
+          <div class="card anim" style="--d:.28s"><b>03</b><span>Astrophysics<i>6,500 years of light travel = 6,500 years into the past</i></span></div>
+          <div class="card anim" style="--d:.33s"><b>04</b><span>Geophysics<i>every second of S–P gap ≈ 10 km of distance</i></span></div>
+          <div class="card anim" style="--d:.38s"><b>05</b><span>Climate Physics<i>without greenhouse gases: −18 °C, not +15 °C</i></span></div>
+          <div class="card anim" style="--d:.43s"><b>06</b><span>Computational Physics<i>1 s steps → 0.001 s steps → the answer</i></span></div>
         </div>
+        <p class="anim" style="--d:.5s; margin-top:18px">
+          <strong>The point of “interdisciplinary”:</strong> nothing about the method changes.
+          A conservation law in a hospital is the same conservation law in a hospital as in a galaxy —
+          only the units and the scale are different.
+        </p>
       </div>
     </section>
 
+    <!-- ══════════ 16 · CREDITS ══════════ -->
+    <section class="slide" aria-label="Photo credits and sources">
+      <div class="slide__inner slide__inner--wide">
+        <div class="eyebrow anim" style="--d:.02s">Appendix</div>
+        <h2 class="anim" style="--d:.07s">Photographs &amp; sources</h2>
+        <p class="anim" style="--d:.12s">
+          All photographs come from Wikimedia Commons and are reproduced under the licence shown.
+          Values used in the worked examples are standard textbook constants.
+        </p>
+        <table class="credits anim" style="--d:.18s">
+          <thead>
+            <tr><th>Board</th><th>Photograph</th><th>Author</th><th>Licence</th><th>Source</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Title</td><td>LHC tunnel, sector 3–4</td><td>Maximilien Brice (CERN)</td><td class="lic">CC BY-SA 3.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Views_of_the_LHC_tunnel_sector_3-4,_tirage_2.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>01 Biophysics</td><td>Ant head, electron micrograph</td><td>U.S. Geological Survey</td><td class="lic">Public domain</td><td><a href="https://commons.wikimedia.org/wiki/File:Ant_SEM.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>01 Example</td><td>Red blood cell in a capillary (TEM)</td><td>Louisa Howard</td><td class="lic">Public domain</td><td><a href="https://commons.wikimedia.org/wiki/File:A_red_blood_cell_in_a_capillary,_pancreatic_tissue_-_TEM.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>02 Medical</td><td>Siemens Magnetom Aera MRI</td><td>Ptrump16</td><td class="lic">CC BY-SA 4.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Siemens_Magnetom_Aera_MRI_scanner.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>02 Example</td><td>Plain radiograph of a knee</td><td>Ptrump16</td><td class="lic">CC BY-SA 4.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Knee_plain_X-ray.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>03 Astrophysics</td><td>ALMA array at night</td><td>ESO / José Francisco Salgado</td><td class="lic">CC BY 3.0</td><td><a href="https://commons.wikimedia.org/wiki/File:ALMA_Greater_than_the_Sum_of_its_Parts_(cropped).jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>03 Example</td><td>The Crab Nebula (Hubble)</td><td>NASA/ESA, Hester &amp; Loll</td><td class="lic">Public domain</td><td><a href="https://commons.wikimedia.org/wiki/File:Crab_Nebula.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>04 Geophysics</td><td>San Andreas Fault, Carrizo Plain</td><td>Ikluft</td><td class="lic">CC BY-SA 4.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Kluft-photo-Carrizo-Plain-Nov-2007-Img_0327.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>04 Example</td><td>Seismogram, Weston Observatory</td><td>Z22</td><td class="lic">CC BY-SA 3.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Seismogram_at_Weston_Observatory.JPG" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>05 Climate</td><td>Hurricane Florence from the ISS</td><td>Alexander Gerst (ESA/NASA)</td><td class="lic">Public domain</td><td><a href="https://commons.wikimedia.org/wiki/File:Staring_Down_Hurricane_Florence.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>05 Example</td><td>The Blue Marble, Apollo 17</td><td>NASA</td><td class="lic">Public domain</td><td><a href="https://commons.wikimedia.org/wiki/File:The_Earth_seen_from_Apollo_17.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>06 Computational</td><td>Summit supercomputer</td><td>Carlos Jones / ORNL</td><td class="lic">CC BY 2.0</td><td><a href="https://commons.wikimedia.org/wiki/File:Summit_(supercomputer).jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+            <tr><td>06 Example</td><td>Cray-1, Deutsches Museum</td><td>Clemens Pfeiffer</td><td class="lic">CC BY 2.5</td><td><a href="https://commons.wikimedia.org/wiki/File:Cray-1-deutsches-museum.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></td></tr>
+          </tbody>
+        </table>
+        <p class="anim" style="--d:.24s; font-size:.85rem; margin-top:14px">
+          <strong>Constants used:</strong> c = 3.00 × 10⁸ m/s · D(O₂ in tissue) ≈ 2 × 10⁻⁹ m²/s ·
+          μ at 60 keV after NIST XCOM · S = 1361 W/m², α = 0.30 · σ = 5.67 × 10⁻⁸ W m⁻² K⁻⁴ ·
+          Crab Nebula ≈ 6,500 ly and ≈ 1,500 km/s · P ≈ 8 km/s, S ≈ 4.5 km/s.
+        </p>
+      </div>
+    </section>
   </div>
 
   <div class="controls">
@@ -428,6 +1543,7 @@
   var prevBtn = document.getElementById('prev');
   var nextBtn = document.getElementById('next');
   var current = 0;
+  var reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   // build dots
   slides.forEach(function (s, i) {
@@ -441,11 +1557,34 @@
   });
   var dots = Array.prototype.slice.call(dotsWrap.children);
 
+  /* ---------- animated figures on the answer boards ---------- */
+  function fmt(el, val) {
+    var dec = parseInt(el.getAttribute('data-dec') || '0', 10);
+    return (el.getAttribute('data-prefix') || '') +
+           val.toFixed(dec) +
+           (el.getAttribute('data-suffix') || '');
+  }
+
+  function countUp(el) {
+    var to = parseFloat(el.getAttribute('data-to'));
+    if (isNaN(to)) return;
+    if (reduce) { el.textContent = fmt(el, to); return; }
+    var t0 = 0;
+    (function frame(t) {
+      if (!t0) t0 = t;
+      var p = Math.min(1, (t - t0) / 950);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(el, to * eased);
+      if (p < 1) requestAnimationFrame(frame);
+    })(performance.now());
+  }
+
+  function runBoard(slide) {
+    Array.prototype.forEach.call(slide.querySelectorAll('[data-to]'), countUp);
+  }
+
   function go(i, skipHash) {
     i = Math.max(0, Math.min(slides.length - 1, i));
-    if (i === current && slides[i].classList.contains('is-active')) {
-      // still sync UI
-    }
     slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === i); });
     dots.forEach(function (d, idx) { d.setAttribute('aria-current', idx === i ? 'true' : 'false'); });
     current = i;
@@ -457,6 +1596,7 @@
       history.replaceState(null, '', i === 0 ? location.pathname : '#' + (i + 1));
     }
     slides[i].scrollTop = 0;
+    runBoard(slides[i]);
   }
 
   function next() { go(current + 1); }
@@ -496,9 +1636,17 @@
     }
   }, { passive: true });
 
-  // start from hash
-  var fromHash = parseInt((location.hash || '').replace('#', ''), 10);
-  go(isNaN(fromHash) ? 0 : fromHash - 1, true);
+  function fromHash() {
+    var n = parseInt((location.hash || '').replace('#', ''), 10);
+    return isNaN(n) ? 0 : n - 1;
+  }
+
+  // start from hash, and follow it when the URL is edited
+  go(fromHash(), true);
+  window.addEventListener('hashchange', function () {
+    var n = fromHash();
+    if (n !== current) go(n, true);
+  });
 
   // press "T" to play ThankYou.mp3
   var sfx = document.getElementById('sfx');

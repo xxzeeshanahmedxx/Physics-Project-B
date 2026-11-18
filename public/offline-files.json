@@ -2,6 +2,19 @@
   "_comment": "Files listed here are downloaded and stored on the device when the service worker installs. Add future files (images, audio, PDFs, sub-pages) to this array and they will be cached for offline use.",
   "files": [
     "/sw.js",
-    "/offline-files.json"
+    "/offline-files.json",
+    "/img/title.jpg",
+    "/img/bio-concept.jpg",
+    "/img/bio-example.jpg",
+    "/img/med-concept.jpg",
+    "/img/med-example.jpg",
+    "/img/astro-concept.jpg",
+    "/img/astro-example.jpg",
+    "/img/geo-concept.jpg",
+    "/img/geo-example.jpg",
+    "/img/climate-concept.jpg",
+    "/img/climate-example.jpg",
+    "/img/compute-concept.jpg",
+    "/img/compute-example.jpg"
   ]
 }
