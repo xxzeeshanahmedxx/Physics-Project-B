@@ -4,414 +4,364 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Interdisciplinary Nature of Physics — Physics Project – B</title>
-<meta name="description" content="A presentation on the interdisciplinary nature of physics: biophysics, medical physics, astrophysics, geophysics, climate physics, and computational physics." />
+<meta name="description" content="A visual presentation on the interdisciplinary nature of physics." />
 <style>
   :root {
-    --bg: #0b1020;
-    --panel: #131a30;
+    --bg: #0a0f1e;
+    --panel: #121a2f;
     --border: #22304f;
-    --text: #e8edf7;
-    --muted: #9aa8c4;
+    --text: #eef2fa;
+    --muted: #98a5c2;
     --accent: #5b8cff;
     --accent-2: #33d6a6;
-    --shadow: 0 24px 60px rgba(0, 0, 0, .45);
+    --glow: rgba(91, 140, 255, .28);
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
-  html { scroll-behavior: smooth; }
+  html.js { overflow: hidden; }
   body {
     margin: 0;
     font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     color: var(--text);
     background:
-      radial-gradient(900px 500px at 15% -10%, rgba(91,140,255,.16), transparent 70%),
-      radial-gradient(800px 500px at 100% 110%, rgba(51,214,166,.12), transparent 70%),
+      radial-gradient(900px 520px at 12% -12%, rgba(91,140,255,.18), transparent 68%),
+      radial-gradient(820px 520px at 100% 112%, rgba(51,214,166,.13), transparent 70%),
       var(--bg);
-    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
   }
 
-  /* ---------- deck shell ---------- */
-  .deck { position: relative; height: 100%; display: flex; flex-direction: column; }
-
-  .progress {
-    position: fixed; inset: 0 0 auto 0; height: 3px; z-index: 30;
-    background: rgba(255,255,255,.06);
-  }
-  .progress__bar {
-    height: 100%; width: 0%;
-    background: linear-gradient(90deg, var(--accent), var(--accent-2));
-    transition: width .35s cubic-bezier(.4,0,.2,1);
-  }
+  .progress { position: fixed; inset: 0 0 auto 0; height: 3px; background: rgba(255,255,255,.06); z-index: 30; }
+  .progress__bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .4s cubic-bezier(.4,0,.2,1); }
 
   .topbar {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 20;
     display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; padding: 22px 28px 0; z-index: 20;
+    padding: 22px 30px 0;
   }
-  .brand {
-    font-size: .72rem; letter-spacing: .16em; text-transform: uppercase;
-    color: var(--muted);
-  }
+  .brand { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
   .brand b { color: var(--accent-2); font-weight: 600; }
   .counter {
-    font-variant-numeric: tabular-nums;
-    font-size: .8rem; color: var(--muted);
-    border: 1px solid var(--border); border-radius: 999px;
-    padding: 3px 12px; background: rgba(19,26,48,.7);
+    font-variant-numeric: tabular-nums; font-size: .78rem; color: var(--muted);
+    border: 1px solid var(--border); border-radius: 999px; padding: 4px 13px;
+    background: rgba(18,26,47,.7);
   }
 
-  /* ---------- slides ---------- */
-  .slides { position: relative; flex: 1; min-height: 0; }
+  .slides { position: absolute; inset: 0; }
 
   .slide {
     position: absolute; inset: 0;
-    display: flex; align-items: center;
-    padding: 24px 28px 96px;
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+    align-items: center; gap: clamp(24px, 4vw, 64px);
+    padding: 96px clamp(24px, 6vw, 88px) 110px;
     opacity: 0; visibility: hidden;
-    transform: translateY(14px) scale(.995);
-    transition: opacity .4s ease, transform .45s cubic-bezier(.4,0,.2,1), visibility .45s;
+    transform: translateY(18px);
+    transition: opacity .45s ease, transform .5s cubic-bezier(.4,0,.2,1), visibility .5s;
     overflow-y: auto;
   }
-  .slide.is-active {
-    opacity: 1; visibility: visible;
-    transform: none;
-  }
-  .slide__inner { width: 100%; max-width: 940px; margin: 0 auto; }
+  .slide.is-active { opacity: 1; visibility: visible; transform: none; }
 
+  /* ---------- type ---------- */
   .eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-size: .72rem; letter-spacing: .15em; text-transform: uppercase;
-    color: var(--accent-2);
-    border: 1px solid var(--border); border-radius: 999px;
-    padding: 5px 14px; margin-bottom: 22px;
-    background: rgba(19,26,48,.6);
+    display: inline-block; font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--accent-2); margin-bottom: clamp(14px, 2vw, 22px);
   }
-
+  .eyebrow span { color: var(--muted); }
   h1 {
-    font-size: clamp(2rem, 5.6vw, 3.6rem);
-    line-height: 1.1; margin: 0 0 18px; letter-spacing: -.02em;
+    font-size: clamp(2.3rem, 6.4vw, 4.6rem); line-height: 1.03; letter-spacing: -.03em;
+    margin: 0 0 clamp(16px, 2.4vw, 26px); font-weight: 700;
   }
-  h1 em { font-style: normal; color: var(--accent); }
+  h1 em { font-style: normal; background: linear-gradient(120deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
   h2 {
-    font-size: clamp(1.7rem, 4.2vw, 2.6rem);
-    line-height: 1.15; margin: 0 0 18px; letter-spacing: -.015em;
+    font-size: clamp(2.1rem, 5.6vw, 4rem); line-height: 1.02; letter-spacing: -.03em;
+    margin: 0 0 clamp(14px, 2vw, 22px); font-weight: 700;
   }
-  p { color: var(--muted); font-size: clamp(.98rem, 1.6vw, 1.12rem); line-height: 1.7; margin: 0 0 16px; max-width: 66ch; }
-  p strong { color: var(--text); font-weight: 600; }
-  p:last-child { margin-bottom: 0; }
+  .lead {
+    font-size: clamp(1.05rem, 2.1vw, 1.5rem); line-height: 1.45;
+    color: #cdd7ea; margin: 0 0 12px; max-width: 30ch; font-weight: 400;
+  }
+  .sub { font-size: clamp(.88rem, 1.5vw, 1.02rem); line-height: 1.6; color: var(--muted); margin: 0; max-width: 42ch; }
 
-  /* ---------- title slide ---------- */
-  .title-slide .kicker {
-    font-size: .74rem; letter-spacing: .2em; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 20px;
+  /* ---------- art ---------- */
+  .art {
+    justify-self: center; width: clamp(190px, 24vw, 320px); height: auto;
+    color: var(--accent); filter: drop-shadow(0 12px 34px var(--glow));
   }
-  .title-slide .rule {
-    width: 64px; height: 3px; border-radius: 2px; margin: 26px 0;
-    background: linear-gradient(90deg, var(--accent), var(--accent-2));
-  }
-  .hint {
-    display: inline-flex; align-items: center; gap: 10px;
-    margin-top: 30px; font-size: .85rem; color: var(--muted);
-  }
-  kbd {
-    font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .78em;
-    border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 6px;
-    padding: 2px 7px; background: var(--panel); color: var(--text);
-  }
+  .art .soft { stroke: rgba(91,140,255,.3); }
+  .art .ring { stroke: rgba(51,214,166,.55); }
+  .art .fill-a { fill: var(--accent); }
+  .art .fill-b { fill: var(--accent-2); }
+  .art .ghost { fill: rgba(91,140,255,.1); }
+  .art .float { animation: float 7s ease-in-out infinite; transform-origin: center; }
+  .art .spin { animation: spin 26s linear infinite; transform-origin: center; }
+  .art .spin-r { animation: spin 18s linear infinite reverse; transform-origin: center; }
+  .art .pulse { animation: pulse 3.4s ease-in-out infinite; transform-origin: center; }
+  @keyframes float { 0%,100% { transform: translateY(-5px); } 50% { transform: translateY(5px); } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 0%,100% { opacity: .35; } 50% { opacity: .9; } }
 
-  /* ---------- field slides ---------- */
-  .field-head { display: flex; align-items: flex-start; gap: 18px; margin-bottom: 6px; }
-  .num {
-    flex: 0 0 auto;
-    font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 700; line-height: 1;
-    font-variant-numeric: tabular-nums;
-    color: transparent;
-    -webkit-text-stroke: 1.5px rgba(91,140,255,.65);
-    padding-top: .18em;
+  /* stacked layout on narrow screens */
+  @media (max-width: 860px) {
+    .slide { grid-template-columns: 1fr; align-content: center; gap: 22px; padding: 84px 22px 108px; }
+    .slide .art { order: -1; width: min(46vw, 190px); }
+    .lead { max-width: none; }
+    .sub { max-width: none; }
+    .topbar { padding: 16px 22px 0; }
+    .brand { display: none; }
   }
-  .tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-  .tag {
-    font-size: .8rem; color: #cfe0ff;
-    background: rgba(91,140,255,.1);
-    border: 1px solid rgba(91,140,255,.3);
-    border-radius: 999px; padding: 5px 13px;
-  }
-
-  .quote {
-    border-left: 3px solid var(--accent);
-    padding: 4px 0 4px 18px;
-    color: var(--text); font-size: clamp(1rem, 1.8vw, 1.18rem); line-height: 1.65;
-    margin: 0 0 22px; max-width: 62ch;
-  }
-
-  /* ---------- overview grid ---------- */
-  .grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-    gap: 12px; margin-top: 26px;
-  }
-  .card {
-    border: 1px solid var(--border); border-radius: 12px;
-    background: rgba(19,26,48,.72);
-    padding: 16px 18px;
-    display: flex; gap: 12px; align-items: baseline;
-  }
-  .card b { color: var(--accent-2); font-size: .8rem; font-variant-numeric: tabular-nums; }
-  .card span { color: var(--text); font-size: .95rem; }
 
   /* ---------- controls ---------- */
   .controls {
     position: fixed; left: 0; right: 0; bottom: 0; z-index: 25;
     display: flex; align-items: center; justify-content: space-between; gap: 16px;
-    padding: 16px 28px 20px;
-    background: linear-gradient(to top, rgba(11,16,32,.95), rgba(11,16,32,0));
+    padding: 16px 30px 20px;
+    background: linear-gradient(to top, rgba(10,15,30,.96), rgba(10,15,30,0));
   }
   .dots { display: flex; flex-wrap: wrap; gap: 7px; }
   .dot {
-    width: 9px; height: 9px; padding: 0; border-radius: 50%; cursor: pointer;
-    border: 1px solid var(--border); background: rgba(255,255,255,.12);
+    width: 9px; height: 9px; padding: 0; border-radius: 50%; border: 1px solid var(--border);
+    background: rgba(255,255,255,.12); cursor: pointer;
     transition: background .2s, transform .2s, border-color .2s;
   }
   .dot:hover { border-color: var(--accent); }
-  .dot[aria-current="true"] {
-    background: var(--accent); border-color: var(--accent); transform: scale(1.25);
-  }
+  .dot[aria-current="true"] { background: var(--accent); border-color: var(--accent); transform: scale(1.3); }
   .arrows { display: flex; gap: 8px; }
   .btn {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 44px; height: 40px; border-radius: 10px; cursor: pointer;
-    color: var(--text); background: var(--panel);
-    border: 1px solid var(--border);
+    width: 46px; height: 42px; border-radius: 11px; cursor: pointer;
+    color: var(--text); background: var(--panel); border: 1px solid var(--border);
     transition: border-color .2s, background .2s, opacity .2s;
   }
-  .btn:hover:not(:disabled) { border-color: var(--accent); background: #182242; }
-  .btn:disabled { opacity: .35; cursor: default; }
+  .btn:hover:not(:disabled) { border-color: var(--accent); background: #18224a; }
+  .btn:disabled { opacity: .32; cursor: default; }
   .btn svg { width: 18px; height: 18px; }
-
   :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-  /* no-JS fallback: show everything, scroll normally */
   html:not(.js) body { overflow: auto; }
   html:not(.js) .slide { position: static; opacity: 1; visibility: visible; transform: none; }
-  html:not(.js) .controls, html:not(.js) .progress { display: none; }
+  html:not(.js) .controls, html:not(.js) .progress, html:not(.js) .topbar { display: none; }
 
-  @media (max-width: 640px) {
-    .topbar { padding: 16px 18px 0; }
-    .slide { padding: 16px 18px 100px; }
-    .controls { padding: 12px 18px 16px; }
-    .brand { display: none; }
-    .field-head { gap: 12px; }
-  }
   @media (prefers-reduced-motion: reduce) {
     .slide, .progress__bar { transition: none; }
+    .art .float, .art .spin, .art .spin-r, .art .pulse { animation: none; }
   }
 </style>
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-<div class="deck">
-  <div class="progress"><div class="progress__bar" id="bar"></div></div>
 
-  <div class="topbar">
-    <div class="brand">Physics Project <b>– B</b></div>
-    <div class="counter" id="counter">1 / 9</div>
-  </div>
+<div class="progress"><div class="progress__bar" id="bar"></div></div>
+<div class="topbar">
+  <div class="brand">Physics Project <b>– B</b></div>
+  <div class="counter" id="counter">1 / 8</div>
+</div>
 
-  <div class="slides" id="slides">
+<div class="slides" id="slides">
 
-    <section class="slide title-slide" aria-label="Title">
-      <div class="slide__inner">
-        <div class="kicker">Physics Project – B</div>
-        <h1>The <em>Interdisciplinary</em> Nature of Physics</h1>
-        <p>How a fundamental science reaches into biology, medicine, space, the Earth, the climate, and computation.</p>
-        <div class="rule"></div>
-        <div class="hint">
-          Use <kbd>←</kbd> <kbd>→</kbd> or swipe to move through the slides
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" aria-label="What it means">
-      <div class="slide__inner">
-        <div class="eyebrow">Introduction</div>
-        <h2>What does “interdisciplinary” mean here?</h2>
-        <p class="quote">
-          It refers to the integration and interaction of physics with various other fields of study.
-        </p>
-        <p>
-          Physics, being a <strong>fundamental science</strong>, provides essential principles,
-          techniques, and methods that are applicable across a wide range of disciplines.
-        </p>
-        <div class="grid">
-          <div class="card"><b>01</b><span>Biophysics</span></div>
-          <div class="card"><b>02</b><span>Medical Physics</span></div>
-          <div class="card"><b>03</b><span>Astrophysics</span></div>
-          <div class="card"><b>04</b><span>Geophysics</span></div>
-          <div class="card"><b>05</b><span>Climate Physics</span></div>
-          <div class="card"><b>06</b><span>Computational Physics</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" aria-label="Biophysics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 01</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">01</span>
-          <h2>Biophysics</h2>
-        </div>
-        <p>
-          This field describes biological systems and processes using the principles and techniques
-          of physics.
-        </p>
-        <p>
-          Examples include the mechanics of biological structures and the physical properties of
-          cells, tissues, and organs.
-        </p>
-        <div class="tags">
-          <span class="tag">Biomechanics</span>
-          <span class="tag">Cells &amp; tissues</span>
-          <span class="tag">Physical properties</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" aria-label="Medical Physics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 02</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">02</span>
-          <h2>Medical Physics</h2>
-        </div>
-        <p>
-          It applies physical principles to develop techniques and technologies for health
-          diagnosis and treatment.
-        </p>
-        <p>
-          Examples include imaging techniques such as X-rays, ultrasound, MRIs, and CT scans,
-          as well as radiation therapy for cancer treatment.
-        </p>
-        <div class="tags">
-          <span class="tag">X-rays</span>
-          <span class="tag">Ultrasound</span>
-          <span class="tag">MRI</span>
-          <span class="tag">CT scans</span>
-          <span class="tag">Radiation therapy</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" aria-label="Astrophysics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 03</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">03</span>
-          <h2>Astrophysics</h2>
-        </div>
-        <p>
-          It deals with the physical properties and processes of celestial bodies and phenomena.
-        </p>
-        <p>
-          For example, studying the interaction between matter and energy in space helps us
-          understand the universe as a whole.
-        </p>
-        <div class="tags">
-          <span class="tag">Celestial bodies</span>
-          <span class="tag">Matter &amp; energy</span>
-          <span class="tag">The universe</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" aria-label="Geophysics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 04</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">04</span>
-          <h2>Geophysics</h2>
-        </div>
-        <p>
-          It applies physical principles to the study of the Earth's internal structure, its
-          magnetic and gravitational fields, seismic activity (earthquakes), volcanoes, and more.
-        </p>
-        <div class="tags">
-          <span class="tag">Internal structure</span>
-          <span class="tag">Magnetic fields</span>
-          <span class="tag">Gravity</span>
-          <span class="tag">Earthquakes</span>
-          <span class="tag">Volcanoes</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" aria-label="Climate Physics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 05</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">05</span>
-          <h2>Climate Physics</h2>
-        </div>
-        <p>
-          It involves the study of physical processes in the environment, including atmospheric
-          dynamics, climate change, and weather conditions.
-        </p>
-        <div class="tags">
-          <span class="tag">Atmospheric dynamics</span>
-          <span class="tag">Climate change</span>
-          <span class="tag">Weather</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" aria-label="Computational Physics">
-      <div class="slide__inner">
-        <div class="eyebrow">Field 06</div>
-        <div class="field-head">
-          <span class="num" aria-hidden="true">06</span>
-          <h2>Computational Physics</h2>
-        </div>
-        <p>
-          It involves using numerical methods and computer simulations to solve complex physical
-          problems that cannot be easily solved analytically.
-        </p>
-        <div class="tags">
-          <span class="tag">Numerical methods</span>
-          <span class="tag">Simulations</span>
-          <span class="tag">Complex problems</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="slide" aria-label="Conclusion">
-      <div class="slide__inner">
-        <div class="eyebrow">In closing</div>
-        <h2>One science, many directions</h2>
-        <p>
-          Physics supplies the principles and the tools. Other disciplines supply the questions.
-          Together they extend physics into living systems, hospitals, space, the planet, the
-          atmosphere, and the computer.
-        </p>
-        <div class="grid">
-          <div class="card"><b>01</b><span>Biophysics — living systems</span></div>
-          <div class="card"><b>02</b><span>Medical Physics — diagnosis &amp; treatment</span></div>
-          <div class="card"><b>03</b><span>Astrophysics — the cosmos</span></div>
-          <div class="card"><b>04</b><span>Geophysics — the Earth</span></div>
-          <div class="card"><b>05</b><span>Climate Physics — the environment</span></div>
-          <div class="card"><b>06</b><span>Computational Physics — simulation</span></div>
-        </div>
-      </div>
-    </section>
-
-  </div>
-
-  <div class="controls">
-    <div class="dots" id="dots" role="tablist" aria-label="Slides"></div>
-    <div class="arrows">
-      <button class="btn" id="prev" aria-label="Previous slide">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
-      </button>
-      <button class="btn" id="next" aria-label="Next slide">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-      </button>
+  <!-- 1 · TITLE -->
+  <section class="slide" aria-label="Title">
+    <div>
+      <div class="eyebrow">Physics Project <span>· B</span></div>
+      <h1>The <em>Interdisciplinary</em> Nature of Physics</h1>
+      <p class="lead">One science, reaching into everything.</p>
+      <p class="sub">Use <kbd>←</kbd> <kbd>→</kbd> or swipe.</p>
     </div>
+    <svg class="art" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <circle cx="120" cy="120" r="10" class="fill-a" stroke="none"/>
+      <ellipse class="spin soft" cx="120" cy="120" rx="96" ry="38"/>
+      <ellipse class="spin-r ring" cx="120" cy="120" rx="96" ry="38" transform="rotate(60 120 120)"/>
+      <ellipse class="spin soft" cx="120" cy="120" rx="96" ry="38" transform="rotate(120 120 120)"/>
+      <circle cx="216" cy="120" r="7" class="fill-b" stroke="none" style="opacity:.9"/>
+      <circle cx="24" cy="120" r="6" stroke="currentColor" class="fill-b" style="opacity:.9"/>
+      <circle cx="120" cy="24" r="5" stroke="currentColor" class="fill-a"/>
+      <circle cx="120" cy="216" r="4" stroke="currentColor" class="fill-a" style="opacity:.7"/>
+    </svg>
+  </section>
+
+  <!-- 2 · INTRO -->
+  <section class="slide" aria-label="Introduction">
+    <div>
+      <div class="eyebrow">Introduction</div>
+      <h2>Why “interdisciplinary”?</h2>
+      <p class="lead">Physics gives the principles, techniques and methods.</p>
+      <p class="sub">Other fields bring the questions — and physics answers them.</p>
+    </div>
+    <svg class="art" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <circle cx="120" cy="120" r="30" class="ghost" stroke="none"/>
+      <circle cx="120" cy="120" r="30" class="pulse"/>
+      <circle cx="120" cy="120" r="9" class="fill-a" stroke="none"/>
+      <g class="soft">
+        <line x1="120" y1="120" x2="46" y2="60"/>
+        <line x1="120" y1="120" x2="194" y2="60"/>
+        <line x1="120" y1="120" x2="32" y2="140"/>
+        <line x1="120" y1="120" x2="208" y2="140"/>
+        <line x1="120" y1="120" x2="72" y2="208"/>
+        <line x1="120" y1="120" x2="168" y2="208"/>
+      </g>
+      <g class="fill-b" stroke="none">
+        <circle cx="46" cy="60" r="8"/><circle cx="194" cy="60" r="8"/>
+        <circle cx="32" cy="140" r="8"/><circle cx="208" cy="140" r="8"/>
+        <circle cx="72" cy="208" r="8"/><circle cx="168" cy="208" r="8"/>
+      </g>
+    </svg>
+  </section>
+
+  <!-- 3 · BIOPHYSICS -->
+  <section class="slide" aria-label="Biophysics">
+    <div>
+      <div class="eyebrow">01 <span>/ 06</span></div>
+      <h2>Biophysics</h2>
+      <p class="lead">Physics of living systems.</p>
+      <p class="sub">Mechanics of cells, tissues and organs.</p>
+    </div>
+    <svg class="art" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <circle cx="120" cy="120" r="88" class="soft" stroke-width="1.6"/>
+      <circle cx="120" cy="120" r="88" class="ring" stroke-dasharray="4 14" style="opacity:.7"/>
+      <circle cx="120" cy="120" r="54" class="ghost" stroke="none"/>
+      <circle cx="120" cy="120" r="54" class="soft" stroke-width="1.8"/>
+      <circle cx="120" cy="120" r="16" class="fill-a" stroke="none" style="opacity:.9"/>
+      <g class="soft" stroke-width="1.4">
+        <line x1="120" y1="32" x2="120" y2="12"/>
+        <line x1="120" y1="208" x2="120" y2="228"/>
+        <line x1="32" y1="120" x2="12" y2="120"/>
+        <line x1="208" y1="120" x2="228" y2="120"/>
+      </g>
+      <g class="fill-b" stroke="none">
+        <circle cx="196" cy="86" r="6"/><circle cx="48" cy="160" r="5" style="opacity:.85"/>
+      </g>
+    </svg>
+  </section>
+
+  <!-- 4 · MEDICAL -->
+  <section class="slide" aria-label="Medical Physics">
+    <div>
+      <div class="eyebrow">02 <span>/ 06</span></div>
+      <h2>Medical Physics</h2>
+      <p class="lead">Physics for diagnosis and treatment.</p>
+      <p class="sub">X-rays, ultrasound, MRI, CT and radiation therapy.</p>
+    </div>
+    <svg class="art" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <circle cx="120" cy="120" r="92" class="soft"/>
+      <circle cx="120" cy="120" r="92" class="ring" stroke-dasharray="18 12" transform="rotate(20 120 120)" style="opacity:.9"/>
+      <circle cx="120" cy="120" r="58" class="ghost" stroke="none"/>
+      <path d="M78 120 h20 l8 -22 l12 44 l10 -30 l8 8 h26" stroke-width="2.2"/>
+      <circle cx="120" cy="120" r="6" class="fill-b" stroke="none"/>
+      <g class="soft" stroke-width="1.2">
+        <line x1="120" y1="18" x2="120" y2="34"/><line x1="120" y1="206" x2="120" y2="222"/>
+        <line x1="18" y1="120" x2="34" y2="120"/><line x1="206" y1="120" x2="222" y2="120"/>
+      </g>
+    </svg>
+  </section>
+
+  <!-- 5 · ASTROPHYSICS -->
+  <section class="slide" aria-label="Astrophysics">
+    <div>
+      <div class="eyebrow">03 <span>/ 06</span></div>
+      <h2>Astrophysics</h2>
+      <p class="lead">Physics of the cosmos.</p>
+      <p class="sub">Matter and energy across the universe.</p>
+    </div>
+    <svg class="art" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <circle cx="120" cy="120" r="62" class="ghost" stroke="none"/>
+      <circle cx="120" cy="120" r="62" class="ring" stroke-width="1.8"/>
+      <path d="M62 108 a62 62 0 0 0 116 24" class="soft" style="opacity:.5"/>
+      <ellipse cx="120" cy="120" rx="104" ry="26" class="soft" transform="rotate(-18 120 120)"/>
+      <ellipse cx="120" cy="120" rx="104" ry="26" class="ring" transform="rotate(18 120 120)" stroke-dasharray="6 10" style="opacity:.75"/>
+      <g class="fill-a" stroke="none">
+        <circle cx="46" cy="52" r="3.2" style="opacity:.9"/>
+        <circle cx="196" cy="40" r="2.6" style="opacity:.7"/>
+        <circle cx="212" cy="196" r="3" style="opacity:.8"/>
+        <circle cx="36" cy="188" r="2.4" style="opacity:.6"/>
+        <circle cx="120" cy="18" r="2.2" style="opacity:.5"/>
+      </g>
+    </svg>
+  </section>
+
+  <!-- 6 · GEOPHYSICS -->
+  <section class="slide" aria-label="Geophysics">
+    <div>
+      <div class="eyebrow">04 <span>/ 06</span></div>
+      <h2>Geophysics</h2>
+      <p class="lead">Physics of the Earth.</p>
+      <p class="sub">Its interior, magnetic and gravitational fields, earthquakes and volcanoes.</p>
+    </div>
+    <svg class="art" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <circle cx="120" cy="120" r="92" class="ring" stroke-width="1.8"/>
+      <circle cx="120" cy="120" r="62" class="soft"/>
+      <circle cx="120" cy="120" r="32" class="ghost" stroke="none"/>
+      <circle cx="120" cy="120" r="32" class="soft"/>
+      <circle cx="120" cy="120" r="9" class="fill-a" stroke="none"/>
+      <g class="ring" stroke-width="1.4" style="opacity:.85">
+        <path d="M28 92 q46 -30 92 0 t92 0"/>
+        <path d="M28 148 q46 30 92 0 t92 0"/>
+      </g>
+      <g class="fill-b" stroke="none">
+        <circle cx="196" cy="96" r="4"/><circle cx="44" cy="150" r="4"/>
+      </g>
+    </svg>
+  </section>
+
+  <!-- 7 · CLIMATE -->
+  <section class="slide" aria-label="Climate Physics">
+    <div>
+      <div class="eyebrow">05 <span>/ 06</span></div>
+      <h2>Climate Physics</h2>
+      <p class="lead">Physics of the atmosphere.</p>
+      <p class="sub">Atmospheric dynamics, climate change and weather.</p>
+    </div>
+    <svg class="art" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <circle cx="150" cy="76" r="26" class="ring" stroke-width="1.8"/>
+      <g class="soft" stroke-width="1.3">
+        <line x1="150" y1="28" x2="150" y2="16"/><line x1="150" y1="136" x2="150" y2="124"/>
+        <line x1="102" y1="76" x2="90" y2="76"/><line x1="210" y1="76" x2="198" y2="76"/>
+        <line x1="184" y1="42" x2="192" y2="34"/><line x1="116" y1="110" x2="108" y2="118"/>
+      </g>
+      <g class="float" style="animation-duration:8s">
+        <path d="M62 176 a26 26 0 0 1 8 -50 a32 32 0 0 1 60 12 a22 22 0 0 1 -6 38 z" class="ghost" stroke="none"/>
+        <path d="M62 176 a26 26 0 0 1 8 -50 a32 32 0 0 1 60 12 a22 22 0 0 1 -6 38 z" class="soft" stroke-width="1.8"/>
+      </g>
+      <g class="ring" stroke-width="1.4" style="opacity:.8">
+        <path d="M46 204 q30 -14 60 0 t60 0"/>
+        <path d="M46 218 q30 -14 60 0 t60 0" style="opacity:.6"/>
+      </g>
+    </svg>
+  </section>
+
+  <!-- 8 · COMPUTATIONAL -->
+  <section class="slide" aria-label="Computational Physics">
+    <div>
+      <div class="eyebrow">06 <span>/ 06</span></div>
+      <h2>Computational Physics</h2>
+      <p class="lead">Physics by simulation.</p>
+      <p class="sub">Numerical methods for problems no formula can solve.</p>
+    </div>
+    <svg class="art" viewBox="0 0 240 240" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+      <g class="soft" stroke-width="1" style="opacity:.5">
+        <line x1="40" y1="60" x2="200" y2="60"/><line x1="40" y1="100" x2="200" y2="100"/>
+        <line x1="40" y1="140" x2="200" y2="140"/><line x1="40" y1="180" x2="200" y2="180"/>
+        <line x1="60" y1="40" x2="60" y2="200"/><line x1="100" y1="40" x2="100" y2="200"/>
+        <line x1="140" y1="40" x2="140" y2="200"/><line x1="180" y1="40" x2="180" y2="200"/>
+      </g>
+      <path class="ring" style="animation:none" d="M40 150 C 70 90, 90 90, 120 128 S 170 176, 200 96" stroke-width="2.2"/>
+      <g class="fill-a" stroke="none">
+        <circle cx="40" cy="150" r="4"/><circle cx="120" cy="128" r="4"/><circle cx="200" cy="96" r="4"/>
+      </g>
+      <g class="fill-b" stroke="none" style="opacity:.85">
+        <circle cx="80" cy="106" r="3"/><circle cx="160" cy="152" r="3"/>
+      </g>
+    </svg>
+  </section>
+
+</div>
+
+<div class="controls">
+  <div class="dots" id="dots" role="tablist" aria-label="Slides"></div>
+  <div class="arrows">
+    <button class="btn" id="prev" aria-label="Previous slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="btn" id="next" aria-label="Next slide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
   </div>
 </div>
 
@@ -425,13 +375,12 @@
   var nextBtn = document.getElementById('next');
   var current = 0;
 
-  // build dots
   slides.forEach(function (s, i) {
     var b = document.createElement('button');
     b.className = 'dot';
     b.type = 'button';
     b.setAttribute('role', 'tab');
-    b.setAttribute('aria-label', 'Slide ' + (i + 1) + (s.getAttribute('aria-label') ? ': ' + s.getAttribute('aria-label') : ''));
+    b.setAttribute('aria-label', 'Slide ' + (i + 1) + ': ' + (s.getAttribute('aria-label') || ''));
     b.addEventListener('click', function () { go(i); });
     dotsWrap.appendChild(b);
   });
@@ -439,9 +388,6 @@
 
   function go(i, skipHash) {
     i = Math.max(0, Math.min(slides.length - 1, i));
-    if (i === current && slides[i].classList.contains('is-active')) {
-      // still sync UI
-    }
     slides.forEach(function (s, idx) { s.classList.toggle('is-active', idx === i); });
     dots.forEach(function (d, idx) { d.setAttribute('aria-current', idx === i ? 'true' : 'false'); });
     current = i;
@@ -449,12 +395,9 @@
     counter.textContent = (i + 1) + ' / ' + slides.length;
     prevBtn.disabled = i === 0;
     nextBtn.disabled = i === slides.length - 1;
-    if (!skipHash) {
-      history.replaceState(null, '', i === 0 ? location.pathname : '#' + (i + 1));
-    }
+    if (!skipHash) history.replaceState(null, '', i === 0 ? location.pathname : '#' + (i + 1));
     slides[i].scrollTop = 0;
   }
-
   function next() { go(current + 1); }
   function prev() { go(current - 1); }
 
@@ -473,26 +416,18 @@
     }
   });
 
-  // touch / swipe
-  var startX = 0, startY = 0, tracking = false;
+  var sx = 0, sy = 0, tracking = false;
   document.addEventListener('touchstart', function (e) {
     if (e.touches.length !== 1) return;
-    startX = e.touches[0].clientX;
-    startY = e.touches[0].clientY;
-    tracking = true;
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY; tracking = true;
   }, { passive: true });
   document.addEventListener('touchend', function (e) {
     if (!tracking) return;
     tracking = false;
-    var t = e.changedTouches[0];
-    var dx = t.clientX - startX;
-    var dy = t.clientY - startY;
-    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) {
-      if (dx < 0) next(); else prev();
-    }
+    var t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Math.abs(dx) > 55 && Math.abs(dx) > Math.abs(dy)) { dx < 0 ? next() : prev(); }
   }, { passive: true });
 
-  // start from hash
   var fromHash = parseInt((location.hash || '').replace('#', ''), 10);
   go(isNaN(fromHash) ? 0 : fromHash - 1, true);
 })();
