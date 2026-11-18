@@ -38,5 +38,13 @@
   document.getElementById('vp').textContent = innerWidth + ' × ' + innerHeight + ' @ ' + (devicePixelRatio || 1) + 'x';
   document.getElementById('ua').textContent = navigator.userAgent;
 </script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js', { scope: '/', updateViaCache: 'none' })
+      .catch(function () {});
+  });
+}
+</script>
 </body>
 </html>

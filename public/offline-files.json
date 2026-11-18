@@ -1,0 +1,7 @@
+{
+  "_comment": "Files listed here are downloaded and stored on the device when the service worker installs. Add future files (images, audio, PDFs, sub-pages) to this array and they will be cached for offline use.",
+  "files": [
+    "/sw.js",
+    "/offline-files.json"
+  ]
+}
