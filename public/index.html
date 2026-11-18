@@ -111,7 +111,9 @@
   .hint {
     display: inline-flex; align-items: center; gap: 10px;
     margin-top: 30px; font-size: .85rem; color: var(--muted);
+    transition: color .3s, transform .3s;
   }
+  .hint.is-playing { color: var(--accent-2); transform: scale(1.04); }
   kbd {
     font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .78em;
     border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 6px;
@@ -223,8 +225,8 @@
         <h1>The <em>Interdisciplinary</em> Nature of Physics</h1>
         <p>How a fundamental science reaches into biology, medicine, space, the Earth, the climate, and computation.</p>
         <div class="rule"></div>
-        <div class="hint">
-          Use <kbd>←</kbd> <kbd>→</kbd> or swipe to move through the slides
+        <div class="hint" id="thint">
+          Use <kbd>←</kbd> <kbd>→</kbd> or swipe to move · press <kbd>T</kbd>
         </div>
       </div>
     </section>
@@ -415,6 +417,8 @@
   </div>
 </div>
 
+<audio id="sfx" src="./ThankYou.mp3" preload="auto"></audio>
+
 <script>
 (function () {
   var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
@@ -495,6 +499,27 @@
   // start from hash
   var fromHash = parseInt((location.hash || '').replace('#', ''), 10);
   go(isNaN(fromHash) ? 0 : fromHash - 1, true);
+
+  // press "T" to play ThankYou.mp3
+  var sfx = document.getElementById('sfx');
+  var hint = document.getElementById('thint');
+  function playSfx() {
+    if (!sfx) return;
+    try { sfx.currentTime = 0; } catch (err) {}
+    var p = sfx.play();
+    if (p && typeof p.catch === 'function') p.catch(function () {});
+    if (hint) {
+      hint.classList.add('is-playing');
+      setTimeout(function () { hint.classList.remove('is-playing'); }, 1200);
+    }
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var el = e.target;
+    if (el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable)) return;
+    if (e.key === 't' || e.key === 'T') { e.preventDefault(); playSfx(); }
+  });
+  window.__playThanks = playSfx;
 })();
 </script>
 </body>
