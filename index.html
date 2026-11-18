@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Physics Project – B</title>
+<meta name="description" content="Physics Project – B: a working page for notes, experiments, and results." />
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: #131a30;
+    --border: #22304f;
+    --text: #e8edf7;
+    --muted: #9aa8c4;
+    --accent: #5b8cff;
+    --accent-2: #33d6a6;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 50% -10%, #1a2547 0%, var(--bg) 60%) no-repeat, var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 24px; }
+  header { padding: 72px 0 40px; }
+  .kicker {
+    display: inline-block;
+    font-size: .78rem;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--accent-2);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin-bottom: 20px;
+  }
+  h1 { font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.15; margin: 0 0 16px; }
+  h1 span { color: var(--accent); }
+  .lede { font-size: 1.1rem; color: var(--muted); max-width: 60ch; margin: 0; }
+  nav {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin: 32px 0 0;
+  }
+  nav a {
+    color: var(--text); text-decoration: none;
+    font-size: .9rem;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 8px;
+    padding: 6px 14px;
+  }
+  nav a:hover { border-color: var(--accent); color: var(--accent); }
+  main { padding-bottom: 40px; }
+  section {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px;
+    margin: 24px 0;
+  }
+  section h2 {
+    margin: 0 0 8px;
+    font-size: 1.15rem;
+    letter-spacing: .01em;
+  }
+  section h2::before {
+    content: "";
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 2px;
+    background: var(--accent);
+    margin-right: 10px;
+    vertical-align: middle;
+  }
+  section p, section li { color: var(--muted); }
+  section p:last-child { margin-bottom: 0; }
+  ul, ol { margin: 8px 0 0; padding-left: 22px; }
+  li { margin: 6px 0; }
+  .placeholder {
+    border-left: 3px solid var(--accent-2);
+    padding-left: 14px;
+    font-style: italic;
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 16px; }
+  .card {
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    background: rgba(255,255,255,.02);
+  }
+  .card strong { display: block; margin-bottom: 4px; color: var(--text); }
+  .card span { font-size: .9rem; color: var(--muted); }
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    font-size: .88em;
+    background: rgba(91,140,255,.12);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 1px 5px;
+    color: #cfe0ff;
+  }
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 24px 0 48px;
+    font-size: .85rem;
+    color: var(--muted);
+  }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="kicker">Physics Project – B</div>
+    <h1>A place for <span>notes, experiments, and results</span></h1>
+    <p class="lede">
+      This is the starter page for Physics Project&nbsp;B. It is live on Cloudflare Pages and
+      deploys automatically from the GitHub repository whenever the main branch changes.
+    </p>
+    <nav aria-label="Sections">
+      <a href="#overview">Overview</a>
+      <a href="#topics">Topics</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#references">References</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="overview">
+      <h2>Overview</h2>
+      <p>
+        Replace this paragraph with the aim of the project: the question being investigated,
+        why it matters, and the scope. One or two sentences is enough to start.
+      </p>
+      <p class="placeholder">Placeholder — project aim and scope go here.</p>
+    </section>
+
+    <section id="topics">
+      <h2>Topics covered</h2>
+      <div class="grid">
+        <div class="card"><strong>Topic 1</strong><span>Short description</span></div>
+        <div class="card"><strong>Topic 2</strong><span>Short description</span></div>
+        <div class="card"><strong>Topic 3</strong><span>Short description</span></div>
+      </div>
+    </section>
+
+    <section id="method">
+      <h2>Method</h2>
+      <ol>
+        <li>State the apparatus and materials used.</li>
+        <li>Describe the procedure step by step.</li>
+        <li>Note the variables: what is changed, measured, and kept constant.</li>
+      </ol>
+    </section>
+
+    <section id="results">
+      <h2>Results</h2>
+      <p>
+        Add tables, charts, or links to data files here. Keep raw data in a
+        <code>data/</code> folder in the repo so the page and the numbers stay together.
+      </p>
+    </section>
+
+    <section id="references">
+      <h2>References</h2>
+      <ul>
+        <li>Textbook chapter(s) used.</li>
+        <li>Any websites, papers, or videos consulted.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Physics Project – B · Deployed on Cloudflare Pages from GitHub.</p>
+  </footer>
+</div>
+</body>
+</html>
