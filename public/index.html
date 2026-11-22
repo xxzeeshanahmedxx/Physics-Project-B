@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><title>Scope of Physics</title><style>
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><meta content="only light" name="color-scheme"/><meta content="#dbd9d0" name="theme-color"/><title>Scope of Physics</title><link as="image" fetchpriority="high" href="./img/01-a-backlit-planet-and-its-moon.webp" rel="preload"/><style>
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;background:#dbd9d0;color:#1b322f;font-family:Arial,Helvetica,sans-serif}
 body{display:flex;align-items:center;justify-content:center}
@@ -222,4 +222,4 @@ function fillList(){const q=searchBox.value.trim().toLowerCase();list.replaceChi
 window.refreshPicker=function(){document.getElementById('picker-no').textContent=entries[n].no;document.getElementById('picker-name').textContent=entries[n].title;trigger.setAttribute('aria-label','Jump to slide, current: '+entries[n].no+' '+entries[n].title);if(!panel.hidden)fillList()};refreshPicker();
 function openPicker(){panel.hidden=false;trigger.setAttribute('aria-expanded','true');searchBox.setAttribute('aria-expanded','true');searchBox.value='';fillList();searchBox.focus({preventScroll:true})}function closePicker(focus=false){panel.hidden=true;trigger.setAttribute('aria-expanded','false');searchBox.setAttribute('aria-expanded','false');if(focus)trigger.focus({preventScroll:true})}function choose(i){if(i<0)return;closePicker(true);go(i)}
 trigger.onclick=()=>panel.hidden?openPicker():closePicker(true);trigger.onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();e.stopPropagation();openPicker()}};searchBox.oninput=fillList;searchBox.onkeydown=e=>{if(e.key==='Tab'){closePicker(true);return}e.stopPropagation();const k=visibleIds.indexOf(cursor);if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();setCursor(visibleIds[Math.min(visibleIds.length-1,Math.max(0,k+(e.key==='ArrowDown'?1:-1)))]??-1)}else if(e.key==='Enter'){e.preventDefault();choose(cursor)}else if(e.key==='Escape'){e.preventDefault();closePicker(true)}};list.onclick=e=>{const row=e.target.closest('[data-slide]');if(row)choose(+row.dataset.slide)};document.addEventListener('pointerdown',e=>{if(!panel.hidden&&!picker.contains(e.target))closePicker()});picker.addEventListener('focusout',e=>{if(e.relatedTarget&&!picker.contains(e.relatedTarget))closePicker()});
-</script></body></html>
+</script><script>if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));</script></body></html>
