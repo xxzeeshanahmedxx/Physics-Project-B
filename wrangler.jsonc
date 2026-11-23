@@ -6,6 +6,9 @@
     "directory": "./public",
     "not_found_handling": "404-page"
   },
+  "routes": [
+    { "pattern": "project.class9hub.com", "custom_domain": true }
+  ],
   "observability": {
     "enabled": true
   }
