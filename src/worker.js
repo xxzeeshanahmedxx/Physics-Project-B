@@ -1,6 +1,25 @@
 const COOKIE = 'atlas_pass';
 const MAX_AGE = 60 * 60 * 24 * 30;
 
+/* Retired service worker: removes itself and every cache it ever wrote. */
+const RETIRED_SW = `self.addEventListener('install', () => self.skipWaiting());
+self.addEventListener('activate', (event) => {
+  event.waitUntil((async () => {
+    try {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((key) => caches.delete(key)));
+    } catch (e) {}
+    try {
+      await self.registration.unregister();
+    } catch (e) {}
+    try {
+      const clients = await self.clients.matchAll({ type: 'window' });
+      await Promise.all(clients.map((client) => client.navigate(client.url).catch(() => {})));
+    } catch (e) {}
+  })());
+});
+`;
+
 function token(cookieHeader) {
   const m = (cookieHeader || '').match(new RegExp('(?:^|;\\s*)' + COOKIE + '=([^;]+)'));
   return m ? m[1] : '';
@@ -66,6 +85,7 @@ ${error ? '<p class="err">' + error + '</p>' : ''}
       'content-type': 'text/html; charset=utf-8',
       'cache-control': 'no-store',
       'x-robots-tag': 'noindex',
+      'clear-site-data': '"storage"',
     },
   });
 }
@@ -77,6 +97,18 @@ export default {
     if (url.protocol === 'http:') {
       return Response.redirect('https://' + url.host + url.pathname + url.search, 301);
     }
+
+    /* Must stay reachable while locked so installed workers can delete themselves. */
+    if (url.pathname === '/sw.js') {
+      return new Response(RETIRED_SW, {
+        headers: {
+          'content-type': 'text/javascript; charset=utf-8',
+          'cache-control': 'no-store',
+          'service-worker-allowed': '/',
+        },
+      });
+    }
+
     if (!env.PASSWORD || !env.SESSION_SECRET) {
       return new Response('Gate is not configured yet.', { status: 500 });
     }
@@ -103,6 +135,20 @@ export default {
     const value = await expectedToken(env.SESSION_SECRET);
     if (!same(token(request.headers.get('cookie')), value)) return gate(401);
 
-    return env.ASSETS.fetch(request);
+    const response = await env.ASSETS.fetch(request);
+    const doc =
+      request.headers.get('sec-fetch-mode') === 'navigate' ||
+      (request.headers.get('accept') || '').includes('text/html');
+    if (!doc) return response;
+
+    /* No storage on anyone's device: wipe any service worker + cache state the
+       page used to install, on every document load. Cookies are untouched. */
+    const headers = new Headers(response.headers);
+    headers.set('clear-site-data', '"storage"');
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    });
   },
 };

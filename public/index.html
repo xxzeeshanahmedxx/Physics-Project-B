@@ -235,4 +235,4 @@ trigger.onclick=()=>panel.hidden?openPicker():closePicker(true);trigger.onkeydow
  document.addEventListener('visibilitychange',()=>{if(document.hidden)p.pause()});
  paint();
 })();
-</script><script>if("serviceWorker"in navigator)addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));</script></body></html>
+</script><script>if("serviceWorker"in navigator||self.caches)addEventListener("load",async()=>{try{if(navigator.serviceWorker)for(const r of await navigator.serviceWorker.getRegistrations())await r.unregister()}catch(e){}try{for(const k of await caches.keys())if(k.startsWith("atlas-"))await caches.delete(k)}catch(e){}});</script></body></html>
