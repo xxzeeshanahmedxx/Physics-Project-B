@@ -227,10 +227,10 @@ trigger.onclick=()=>panel.hidden?openPicker():closePicker(true);trigger.onkeydow
  const A=['01-scope-of-physics.mp3','02-what-is-science.mp3','03-natural-philosophy.mp3','04-space-and-time.mp3','05-branches-of-physics.mp3','06-mechanics.mp3','07-thermodynamics.mp3','08-acoustics.mp3','09-optics.mp3','10-electromagnetism.mp3','11-quantum-mechanics.mp3','12-relativistic-mechanics.mp3','13-nuclear-physics.mp3','14-particle-physics.mp3','15-astronomy.mp3','16-cosmology.mp3','17-solid-state-physics.mp3','18-interdisciplinary-nature-of-physics.mp3','19-biophysics.mp3','20-medical-physics.mp3','21-astrophysics.mp3','22-geophysics.mp3','23-climate-physics.mp3','24-computational-physics.mp3','25-thank-you.mp3'];
  const b=document.getElementById('sound'),p=new Audio(),c=document.getElementById('count');
  p.preload='auto';p.volume=.95;
- let on=localStorage.getItem('scope-sound')!=='off';
+ let on=true;
  function paint(){b.classList.toggle('snd-off',!on);b.setAttribute('aria-pressed',String(on));b.title=on?'Sound on (P)':'Sound off (P)';b.setAttribute('aria-label',on?'Mute heading narration':'Unmute heading narration')}
  window.saySlide=i=>{if(!on||!A[i])return;p.pause();p.src='./audio/'+A[i];p.currentTime=0;const r=p.play();if(r&&r.catch)r.catch(()=>{})};
- b.onclick=()=>{on=!on;localStorage.setItem('scope-sound',on?'on':'off');paint();if(on){const i=parseInt(c.textContent,10)-1;if(i>0)window.saySlide(i)}else p.pause()};
+ b.onclick=()=>{on=!on;paint();if(on){const i=parseInt(c.textContent,10)-1;if(i>0)window.saySlide(i)}else p.pause()};
  document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.ctrlKey||e.metaKey||e.altKey||e.repeat||e.target.closest('#picker-panel'))return;if(['p','m'].includes(e.key.toLowerCase())){e.preventDefault();b.click()}});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)p.pause()});
  paint();
