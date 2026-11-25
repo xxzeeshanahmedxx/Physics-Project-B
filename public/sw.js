@@ -2,7 +2,7 @@
 const VERSION = 'd639774e7a66';
 const CACHE = 'atlas-' + VERSION;
 const SHELL = './index.html';
-const ART = [
+const MEDIA = [
   './img/01-a-backlit-planet-and-its-moon-3e5d9672.webp',
   './img/02-ripples-on-water-b4db7b98.webp',
   './img/03-fern-frond-curled-around-a-quartz-crystal-721f49d4.webp',
@@ -58,12 +58,28 @@ const ART = [
   './audio/25-thank-you.mp3',
 ];
 
+const OFFLINE = [
+  '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">',
+  '<title>Offline - Scope of Physics</title>',
+  '<style>html,body{margin:0;height:100%;background:#dbd9d0;color:#183632;',
+  'font-family:Arial,Helvetica,sans-serif;display:grid;place-items:center;text-align:center}',
+  'h1{font:normal 2.1rem/1.1 Georgia,serif;letter-spacing:-.04em;margin:.3rem 0 .6rem}',
+  'p{margin:0 0 1.4rem;color:#41574f;font:italic 1rem/1.5 Georgia,serif}',
+  'button{padding:.7rem 1.4rem;border:0;border-radius:99px;background:#183632;color:#f4f0e5;',
+  'font:600 .78rem/1 monospace;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}',
+  '</style><main><h1>You are offline</h1>',
+  '<p>The deck is saved on this device, but this page was not cached yet.</p>',
+  '<button onclick="location.reload()">Try again</button></main>',
+].join('');
+
 self.addEventListener('install', (event) => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE);
-    await cache.addAll(['./', SHELL].map((u) => new Request(u, { cache: 'reload' })));
+    try {
+      await cache.addAll(['./', SHELL].map((u) => new Request(u, { cache: 'reload' })));
+    } catch (e) {}
     await Promise.allSettled(
-      ART.map((u) => cache.add(new Request(u, { cache: 'reload' })).catch(() => {})),
+      MEDIA.map((u) => cache.add(new Request(u, { cache: 'reload' })).catch(() => {})),
     );
     await self.skipWaiting();
   })());
@@ -77,10 +93,20 @@ self.addEventListener('activate', (event) => {
   })());
 });
 
-async function revalidate(cache, request) {
+async function shellFrom(cache, request) {
+  return (
+    (await cache.match(SHELL)) ||
+    (await cache.match('./')) ||
+    (await cache.match(request)) ||
+    null
+  );
+}
+
+async function refreshShell() {
   try {
-    const fresh = await fetch(request.url, { cache: 'no-cache' });
-    if (!fresh.ok) return;
+    const fresh = await fetch(SHELL, { cache: 'no-cache' });
+    if (!fresh || !fresh.ok) return;
+    const cache = await caches.open(CACHE);
     const held = await cache.match(SHELL);
     if (!held) {
       await cache.put(SHELL, fresh.clone());
@@ -91,29 +117,61 @@ async function revalidate(cache, request) {
   } catch (e) {}
 }
 
+async function navigate(request) {
+  let held = null;
+  try {
+    held = await shellFrom(await caches.open(CACHE), request);
+  } catch (e) {}
+  if (held) return held;
+  try {
+    return await fetch(request);
+  } catch (e) {}
+  try {
+    const again = await shellFrom(await caches.open(CACHE), request);
+    if (again) return again;
+  } catch (e) {}
+  return new Response(OFFLINE, {
+    status: 200,
+    headers: { 'content-type': 'text/html; charset=utf-8' },
+  });
+}
+
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   if (request.method !== 'GET') return;
-  const url = new URL(request.url);
+
+  let url;
+  try {
+    url = new URL(request.url);
+  } catch (e) {
+    return;
+  }
   if (url.origin !== self.location.origin) return;
   if (url.pathname.endsWith('/sw.js')) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith((async () => {
-      const cache = await caches.open(CACHE);
-      const held = (await cache.match(SHELL)) || (await cache.match(request));
-      event.waitUntil(revalidate(cache, request));
-      return held || fetch(request);
-    })());
+    event.respondWith(navigate(request));
+    event.waitUntil(refreshShell());
     return;
   }
 
   event.respondWith((async () => {
-    const cache = await caches.open(CACHE);
-    const held = await cache.match(request);
-    if (held) return held;
-    const response = await fetch(request);
-    if (response.ok && response.type === 'basic') cache.put(request, response.clone());
-    return response;
+    try {
+      const cache = await caches.open(CACHE);
+      const held = await cache.match(request);
+      if (held) return held;
+      const response = await fetch(request);
+      if (response && response.ok && response.type === 'basic') {
+        cache.put(request, response.clone());
+      }
+      return response;
+    } catch (e) {
+      try {
+        const cache = await caches.open(CACHE);
+        const held = await cache.match(request, { ignoreSearch: true });
+        if (held) return held;
+      } catch (err) {}
+      return new Response('', { status: 504, statusText: 'Offline' });
+    }
   })());
 });
