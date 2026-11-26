@@ -63,12 +63,16 @@ main{width:min(100%,26rem);border-top:1px solid #9ba89b;padding-top:1.5rem}
 h1{margin:0 0 .6rem;font:normal clamp(2rem,6.5vw,2.9rem)/.98 Georgia,"Times New Roman",serif;letter-spacing:-.045em}
 p{margin:0 0 1.5rem;font:italic 1rem/1.5 Georgia,"Times New Roman",serif;color:#41574f}
 .row{display:flex;gap:.5rem}
+.row[hidden]{display:none}
 input{flex:1;min-width:0;padding:.85rem 1rem;border:1px solid #9ba89b;border-radius:99px;background:#f4f0e5;color:#183632;font:400 .95rem/1 Arial,Helvetica,sans-serif;-webkit-text-security:disc;letter-spacing:.1em}
 input:focus{outline:2px solid #b35d3d;outline-offset:2px}
 button{padding:.85rem 1.3rem;border:0;border-radius:99px;background:#183632;color:#f4f0e5;font:600 .78rem/1 monospace;letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
 button:hover{background:#b35d3d}
 .err{margin:1rem 0 0;padding:.7rem .9rem;border-left:2px solid #b35d3d;background:#f4f0e5;font:400 .85rem/1.4 Arial,Helvetica,sans-serif;color:#8c3d24}
 .note{margin:1.4rem 0 0;font:400 .72rem/1.5 monospace;letter-spacing:.08em;text-transform:uppercase;color:#7b8a86}
+.bar{position:relative;height:3px;background:#c6c2b5;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:#b35d3d;transition:width .16s linear}
+.pct{margin:.8rem 0 0;font:400 .72rem/1.5 monospace;letter-spacing:.08em;text-transform:uppercase;color:#41574f}
 </style></head>
 <body><main>
 <div class="badge">Private presentation</div>
@@ -85,19 +89,97 @@ ${error ? '<p class="err">' + error + '</p>' : ''}
 (function () {
   var input = document.getElementById('p');
   var button = document.getElementById('go');
+  var row = document.querySelector('.row');
+  var note = document.querySelector('.note');
+  var MIN_MS = 5000;
   var busy = false;
   input.focus();
+
   function fail(message) {
     var p = document.createElement('p');
     p.className = 'err';
     p.textContent = message;
     var old = document.querySelector('.err');
-    if (old) old.replaceWith(p); else document.querySelector('.note').before(p);
+    if (old) old.replaceWith(p); else note.before(p);
+    row.hidden = false;
+    button.disabled = false;
+    button.textContent = 'Open';
     input.select();
   }
+
+  function showBar() {
+    row.hidden = true;
+    var wrap = document.createElement('div');
+    wrap.innerHTML = '<div class="bar"><i></i></div><p class="pct">Downloading presentation</p>';
+    note.before(wrap);
+    var fill = wrap.querySelector('i');
+    var label = wrap.querySelector('.pct');
+    return function (pct, bytes) {
+      fill.style.width = pct + '%';
+      label.textContent =
+        'Downloading presentation · ' + Math.round(pct) + '% · ' +
+        (bytes / 1048576).toFixed(1) + ' MB';
+    };
+  }
+
+  function download(items, state) {
+    var map = {};
+    var queue = items.slice();
+    function runner() {
+      return (async function () {
+        while (queue.length) {
+          var url = queue.shift();
+          try {
+            var response = await fetch(url);
+            if (!response.ok) continue;
+            var chunks = [];
+            var reader = response.body.getReader();
+            while (true) {
+              var step = await reader.read();
+              if (step.done) break;
+              chunks.push(step.value);
+              state.bytes += step.value.length;
+            }
+            var path = url.split('?')[0];
+            var type = /[.]webp$/.test(path) ? 'image/webp' : /[.]mp3$/.test(path) ? 'audio/mpeg' : '';
+            map[path] = URL.createObjectURL(new Blob(chunks, { type: type }));
+          } catch (error) {}
+        }
+      })();
+    }
+    var runners = [];
+    for (var i = 0; i < 6; i += 1) runners.push(runner());
+    return Promise.all(runners).then(function () { return map; });
+  }
+
+  /* Believable five second bar; it never passes 97% until the bytes are really in. */
+  function playBar(paint, state, started) {
+    return new Promise(function (resolve) {
+      var shown = 0;
+      function frame() {
+        var t = Math.min(1, (performance.now() - started) / MIN_MS);
+        var eased = (1 - Math.pow(1 - t, 2.2)) * 100;
+        var ceiling = state.ready ? 100 : 97;
+        var target = Math.min(eased + (Math.random() - 0.5) * 2.6, ceiling);
+        shown = Math.max(shown, Math.min(target, shown + 5));
+        if (shown >= 99.4 && state.ready) {
+          paint(100, state.bytes);
+          setTimeout(resolve, 300);
+          return;
+        }
+        paint(shown, state.bytes);
+        setTimeout(frame, 80);
+      }
+      frame();
+    });
+  }
+
   function open() {
     if (busy) return;
     busy = true;
+    button.disabled = true;
+    button.textContent = 'Checking';
+    var started = performance.now();
     fetch('/__unlock', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -110,8 +192,30 @@ ${error ? '<p class="err">' + error + '</p>' : ''}
         });
       })
       .then(function (body) {
+        if (!body.items || !body.items.length) return body.html;
+        var state = { ready: false, bytes: 0 };
+        var paint = showBar();
+        var work = download(body.items, state).then(function (map) {
+          state.ready = true;
+          return map;
+        });
+        return playBar(paint, state, started).then(function () { return work; }).then(function (map) {
+          var html = body.html.replace(/src="(\\.\\/img\\/[^"?]+)(\\?[^"]*)?"/g, function (match, path) {
+            return map[path] ? 'src="' + map[path] + '"' : match;
+          });
+          var audio = {};
+          Object.keys(map).forEach(function (key) {
+            if (key.indexOf('./audio/') === 0) audio[key.slice(8)] = map[key];
+          });
+          return html.replace(
+            '<head>',
+            '<head><script>window.__B=' + JSON.stringify(audio) + '<\\/script>',
+          );
+        });
+      })
+      .then(function (html) {
         document.open();
-        document.write(body.html);
+        document.write(html);
         document.close();
       })
       .catch(function (error) {
@@ -119,6 +223,7 @@ ${error ? '<p class="err">' + error + '</p>' : ''}
         fail(error.message || 'Could not open the deck. Try again.');
       });
   }
+
   button.addEventListener('click', open);
   input.addEventListener('keydown', function (event) {
     if (event.key === 'Enter') {
@@ -148,6 +253,27 @@ function authorize(html, t) {
     .replace(/((?:src|content)="\.\/img\/[^"?]+)(")/g, '$1?k=' + t + '$2')
     .replace("'./audio/'+A[i]", "'./audio/'+A[i]+'?k=" + t + "'")
     .replace('<head>', '<head><meta content="no-referrer" name="referrer"/>');
+}
+
+/* Every file the deck can show, so the gate knows what to pull in. */
+let MANIFEST = null;
+async function manifest(env, base) {
+  if (MANIFEST) return MANIFEST;
+  const page = await env.ASSETS.fetch(new Request(new URL('/index.html', base).toString()));
+  const html = await page.text();
+  const urls = [];
+  const seen = new Set();
+  const add = (u) => {
+    if (!seen.has(u)) {
+      seen.add(u);
+      urls.push(u);
+    }
+  };
+  for (const m of html.matchAll(/src="(\.\/img\/[^"?]+)"/g)) add(m[1]);
+  const list = html.match(/const A=\[([^\]]*)\]/);
+  if (list) for (const m of list[1].matchAll(/'([^']+\.mp3)'/g)) add('./audio/' + m[1]);
+  MANIFEST = urls;
+  return MANIFEST;
 }
 
 export default {
@@ -190,7 +316,14 @@ export default {
       if (!page.ok) return json({ error: 'The deck is unavailable.' }, 503);
 
       const t = await expectedToken(env.SESSION_SECRET);
-      return json({ html: authorize(await page.text(), t) }, 200);
+      const urls = await manifest(env, url);
+      return json(
+        {
+          html: authorize(await page.text(), t),
+          items: urls.map((u) => u + '?k=' + t),
+        },
+        200,
+      );
     }
 
     const t = await expectedToken(env.SESSION_SECRET);

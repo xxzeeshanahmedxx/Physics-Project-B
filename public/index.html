@@ -229,7 +229,7 @@ trigger.onclick=()=>panel.hidden?openPicker():closePicker(true);trigger.onkeydow
  p.preload='auto';p.volume=.95;
  let on=true;
  function paint(){b.classList.toggle('snd-off',!on);b.setAttribute('aria-pressed',String(on));b.title=on?'Sound on (P)':'Sound off (P)';b.setAttribute('aria-label',on?'Mute heading narration':'Unmute heading narration')}
- window.saySlide=i=>{if(!on||!A[i])return;p.pause();p.src='./audio/'+A[i];p.currentTime=0;const r=p.play();if(r&&r.catch)r.catch(()=>{})};
+ window.saySlide=i=>{if(!on||!A[i])return;p.pause();p.src=(window.__B&&window.__B[A[i]])||'./audio/'+A[i];p.currentTime=0;const r=p.play();if(r&&r.catch)r.catch(()=>{})};
  b.onclick=()=>{on=!on;paint();if(on){const i=parseInt(c.textContent,10)-1;if(i>0)window.saySlide(i)}else p.pause()};
  document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.ctrlKey||e.metaKey||e.altKey||e.repeat||e.target.closest('#picker-panel'))return;if(['p','m'].includes(e.key.toLowerCase())){e.preventDefault();b.click()}});
  document.addEventListener('visibilitychange',()=>{if(document.hidden)p.pause()});
